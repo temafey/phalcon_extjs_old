@@ -11,25 +11,25 @@ use ExtjsCms\Grid\Base,
     Engine\Filter\SearchFilterInterface as Criteria;
 
 /**
- * Class
+ * Class Item
  *
- * @category   Module
- * @package
- * @subpackage Grid
+ * @category    Module
+ * @package     Menu
+ * @subpackage  Grid
  */
-class Items extends Base
+class Item extends Base
 {
     /**
      * Extjs grid key
      * @var string
      */
-    protected $_key = '';
+    protected $_key = 'menu-item';
 
     /**
      * Grid title
      * @var string
      */
-    protected $_title = '';
+    protected $_title = 'Menu items';
 
     /**
      * Container model

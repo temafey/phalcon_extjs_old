@@ -11,31 +11,31 @@ use ExtjsCms\Grid\Base,
     Engine\Filter\SearchFilterInterface as Criteria;
 
 /**
- * Class
+ * Class Role
  *
- * @category   Module
- * @package
- * @subpackage Grid
+ * @category    Module
+ * @package     Acl
+ * @subpackage  Grid
  */
-class Resource extends Base
+class Role extends Base
 {
     /**
      * Extjs grid key
      * @var string
      */
-    protected $_key = '';
+    protected $_key = 'acl-role';
 
     /**
      * Grid title
      * @var string
      */
-    protected $_title = '';
+    protected $_title = 'Roles';
 
     /**
      * Container model
      * @var string
      */
-    protected $_containerModel = '\ExtjsCms\Model\Acl\Resource';
+    protected $_containerModel = '\ExtjsCms\Model\Acl\Role';
 
     /**
      * Container condition
@@ -52,11 +52,10 @@ class Resource extends Base
     {
 		$this->_columns = [
 			'id' => new Column\Primary('Id'),
-			'acl_module_id' => new Column\JoinOne('Module', 'ExtjsCms\Model\Acl\Module'),
 			'name' => new Column\Name('Name'),
-			'privilege' => new Column\JoinMany('Привелегии', 'ExtjsCms\Model\Acl\Privilege',null,null,', ', 5)
+			'privilege' => new Column\JoinMany('Privileges', ['ExtjsCms\Model\Acl\RolePrivilege', 'ExtjsCms\Model\Acl\Privilege'], null, null, ', ', 5, '100')
 		];
-		$this->_columns['privilege']->setAction ('acl-privilege', 'acl_resource');
+		$this->_columns['privilege']->setAction ('acl-privilege', 'role');
     }
 
     /**
@@ -76,7 +75,7 @@ class Resource extends Base
                     ],
                 ],
 				[
-                    'path' => 'ExtjsCms\Module\Acl\Module',
+                    'path' => ['ExtjsCms\Model\Acl\RolePrivilege', 'ExtjsCms\Model\Acl\Privilege'],
                     'filter' => [
                         Criteria::COLUMN_NAME => Criteria::CRITERIA_BEGINS
                     ],
@@ -84,8 +83,7 @@ class Resource extends Base
 			]),
 			'id' => new Field\Primary('Id'),
             'name' => new Field\Name('Name'),
-            'acl_module' => new Field\Join('acl_module_id', 'Модуль', 'ExtjsCms\Model\Acl\Module'),
-            'parent' => new Field\Join('acl_module_id', 'Модуль', 'ExtjsCms\Model\Acl\Module')
+			'privilege' => new Field\Join('acl_privilege_id', 'Privileges', 'ExtjsCms\Model\Acl\Privilege', ['ExtjsCms\Model\Acl\RolePrivilege', 'ExtjsCms\Model\Acl\Privilege'])
         ]);
     }
 }

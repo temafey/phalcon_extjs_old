@@ -2,31 +2,28 @@
 /**
  * @namespace
  */
-namespace ExtjsCms\Grid\Acl;
+namespace ExtjsCms\Form\Acl;
 
-use ExtjsCms\Grid\Base,
-    Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
-    Engine\Crud\Grid\Filter\Field,
-    Engine\Filter\SearchFilterInterface as Criteria;
+use ExtjsCms\Form\Base,
+    Engine\Crud\Form\Field;
 
 /**
- * Class
+ * Class Module
  *
- * @category   Module
- * @package
- * @subpackage Grid
+ * @category    Module
+ * @package     Acl
+ * @subpackage  Form
  */
 class Module extends Base
 {
     /**
-     * Extjs grid key
+     * Extjs form key
      * @var string
      */
     protected $_key = 'acl-module';
 
     /**
-     * Grid title
+     * Form title
      * @var string
      */
     protected $_title = 'Module';
@@ -44,23 +41,23 @@ class Module extends Base
     protected $_containerConditions = null;
 
     /**
-     * Initialize grid columns
+     * Initialize form fields
      *
      * @return void
      */
-    protected function _initColumns()
+    protected function _initFields()
     {
-		$this->_columns = [
-			'id' => new Column\Primary('Id'),
-			'name' => new Column\Name("Name"),
-			'resources' => new Column\JoinMany('Resources', 'ExtjsCms\Model\Acl\Resource', null, null, ', ', 5, '100')
+		$this->_fields = [
+			'id' => new Field\Primary('Id'),
+			'name' => new Field\Name("Name"),
+			'resources' => new Field\JoinMany('Resources', 'ExtjsCms\Model\Acl\Resource', null, null, ', ', 5, '100')
 		];
 
-		$this->_columns['resource']->setAction ('acl-resource', 'acl_module');
+		$this->_fields['resource']->setAction ('acl-resource', 'acl_module');
     }
 
     /**
-     * Initialize grid filters
+     * Initialize form filters
      *
      * @return void
      */

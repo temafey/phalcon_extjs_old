@@ -2,34 +2,31 @@
 /**
  * @namespace
  */
-namespace ExtjsCms\Grid\Acl;
+namespace ExtjsCms\Form\Acl;
 
-use ExtjsCms\Grid\Base,
-    Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
-    Engine\Crud\Grid\Filter\Field,
-    Engine\Filter\SearchFilterInterface as Criteria;
+use ExtjsCms\Form\Base,
+    Engine\Crud\Form\Field;
 
 /**
- * Class
+ * Class Privilege
  *
- * @category   Module
- * @package
- * @subpackage Grid
+ * @category    Module
+ * @package     Acl
+ * @subpackage  Form
  */
 class Privilege extends Base
 {
     /**
-     * Extjs grid key
+     * Extjs form key
      * @var string
      */
-    protected $_key = '';
+    protected $_key = 'acl-privilege';
 
     /**
-     * Grid title
+     * Form title
      * @var string
      */
-    protected $_title = '';
+    protected $_title = 'Privilege';
 
     /**
      * Container model
@@ -44,24 +41,24 @@ class Privilege extends Base
     protected $_containerConditions = null;
 
     /**
-     * Initialize grid columns
+     * Initialize form fields
      *
      * @return void
      */
-    protected function _initColumns()
+    protected function _initFields()
     {
-		$this->_columns = [
-			'id' => new Column\Primary('Id'),
-			'name' => new Column\Name('Name'),
-			'acl_resource_id' => new Column\JoinOne('Ресурс', 'ExtjsCms\Model\Acl\Resource'),
-			'module' => new Column\JoinOne('Module', ['ExtjsCms\Model\Acl\Resource', 'ExtjsCms\Model\Acl\Module']),
-			'role' => new Column\JoinMany('Roles', ['ExtjsCms\Model\Acl\RolePrivilege', 'ExtjsCms\Model\Acl\Role'], null, null, ', ', 5, '100')
+		$this->_fields = [
+			'id' => new Field\Primary('Id'),
+			'name' => new Field\Name('Name'),
+			'acl_resource_id' => new Field\JoinOne('Ресурс', 'ExtjsCms\Model\Acl\Resource'),
+			'module' => new Field\JoinOne('Module', ['ExtjsCms\Model\Acl\Resource', 'ExtjsCms\Model\Acl\Module']),
+			'role' => new Field\JoinMany('Roles', ['ExtjsCms\Model\Acl\RolePrivilege', 'ExtjsCms\Model\Acl\Role'], null, null, ', ', 5, '100')
 		];
-		$this->_columns['role']->setAction ('acl-role', 'privilege');
+		$this->_fields['role']->setAction ('acl-role', 'privilege');
     }
 
     /**
-     * Initialize grid filters
+     * Initialize form filters
      *
      * @return void
      */
