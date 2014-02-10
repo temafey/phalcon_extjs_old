@@ -27,7 +27,7 @@ class Base extends PhController
         if (method_exists($this, 'init')) {
             $this->init();
         }
-        $scriptModulePath = 'admin/extjs/apps/Cms';
+        $scriptModulePath = 'admin/extjs/lib/cms';
         //Add some local CSS resources
         $this->assets
             //->addCss('extjs/lib/resources/css/ext-all.css')
@@ -75,7 +75,7 @@ class Base extends PhController
         }
         $grid = implode("", $grid);
 
-        return "\\".ucfirst($module)."\Grid\ExtjsCms\\".ucfirst($grid);
+        return "\\".ucfirst($module)."\Grid\Extjs\\".ucfirst($grid);
     }
 
     /**
@@ -96,7 +96,7 @@ class Base extends PhController
         }
         $form = implode("", $form);
 
-        return "\\".ucfirst($module)."\Form\ExtjsCms\\".ucfirst($form);
+        return "\\".ucfirst($module)."\Form\Extjs\\".ucfirst($form);
     }
 
     /**
