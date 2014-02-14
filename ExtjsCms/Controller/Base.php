@@ -27,11 +27,12 @@ class Base extends PhController
         if (method_exists($this, 'init')) {
             $this->init();
         }
-        $scriptModulePath = 'admin/extjs/lib/cms';
+        //$scriptModulePath = 'extjs/apps/Cms';
+        $scriptModulePath = 'extjs/lib/cms';
         //Add some local CSS resources
         $this->assets
             //->addCss('extjs/lib/resources/css/ext-all.css')
-            //->addJs('extjs/lib/ext-all-debug.js')
+            //->addJs('extjs/lib/ext-all.js')
             ->addJs($scriptModulePath.'/static/include-ext.js')
             ->addJs($scriptModulePath.'/static/options-toolbar.js')
             ->addCss($scriptModulePath."/css/style.css");
@@ -66,14 +67,25 @@ class Base extends PhController
      */
     protected function _getGrid($module, $grid)
     {
-        $grid = explode("-", $grid);
+        $module = str_replace("-", "_", \Phalcon\Text::uncamelize($module));
+        $module = explode("_", $module);
+        foreach ($module as $i => &$word) {
+            if ($i == 0) {
+                continue;
+            }
+            $word = ucfirst($word);
+        }
+        $module = implode("", $module);
+
+        $grid = str_replace("-", "_", \Phalcon\Text::uncamelize($grid));
+        $grid = explode("_", $grid);
         foreach ($grid as $i => &$word) {
             if ($i == 0) {
                 continue;
             }
             $word = ucfirst($word);
         }
-        $grid = implode("", $grid);
+        $grid = implode("\\", $grid);
 
         return "\\".ucfirst($module)."\Grid\Extjs\\".ucfirst($grid);
     }
@@ -87,14 +99,25 @@ class Base extends PhController
      */
     protected function _getForm($module, $form)
     {
-        $form = explode("-", $form);
+        $module = str_replace("-", "_", \Phalcon\Text::uncamelize($module));
+        $module = explode("_", $module);
+        foreach ($module as $i => &$word) {
+            if ($i == 0) {
+                continue;
+            }
+            $word = ucfirst($word);
+        }
+        $module = implode("", $module);
+
+        $form = str_replace("-", "_", \Phalcon\Text::uncamelize($form));
+        $form = explode("_", $form);
         foreach ($form as $i => &$word) {
             if ($i == 0) {
                 continue;
             }
             $word = ucfirst($word);
         }
-        $form = implode("", $form);
+        $form = implode("\\", $form);
 
         return "\\".ucfirst($module)."\Form\Extjs\\".ucfirst($form);
     }

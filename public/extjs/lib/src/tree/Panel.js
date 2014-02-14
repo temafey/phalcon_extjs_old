@@ -56,7 +56,7 @@ Ext.define('Ext.tree.Panel', {
     extend: 'Ext.panel.Table',
     alias: 'widget.treepanel',
     alternateClassName: ['Ext.tree.TreePanel', 'Ext.TreePanel'],
-    requires: ['Ext.tree.View', 'Ext.selection.TreeModel', 'Ext.tree.Column', 'Ext.data.TreeStore'],
+    requires: ['Ext.tree.View', 'Ext.selection.TreeModel', 'Ext.tree.Field', 'Ext.data.TreeStore'],
     viewType: 'treeview',
     selType: 'treemodel',
 

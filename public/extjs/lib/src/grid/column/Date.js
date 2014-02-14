@@ -19,7 +19,7 @@ at http://www.sencha.com/contact.
 Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
 */
 /**
- * A Column definition class which renders a passed date according to the default locale, or a configured
+ * A Field definition class which renders a passed date according to the default locale, or a configured
  * {@link #format}.
  *
  *     @example
@@ -41,7 +41,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     });
  *     
  *     Ext.create('Ext.grid.Panel', {
- *         title: 'Date Column Demo',
+ *         title: 'Date Field Demo',
  *         store: Ext.data.StoreManager.lookup('sampleStore'),
  *         columns: [
  *             { text: 'Symbol',   dataIndex: 'symbol', flex: 1 },
@@ -56,14 +56,14 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     });
  */
 Ext.define('Ext.grid.column.Date', {
-    extend: 'Ext.grid.column.Column',
+    extend: 'Ext.grid.column.Field',
     alias: ['widget.datecolumn'],
     requires: ['Ext.Date'],
-    alternateClassName: 'Ext.grid.DateColumn',
+    alternateClassName: 'Ext.grid.DateField',
 
     /**
      * @cfg {String} format
-     * A formatting string as used by {@link Ext.Date#format} to format a Date for this Column.
+     * A formatting string as used by {@link Ext.Date#format} to format a Date for this Field.
      *
      * Defaults to the default date from {@link Ext.Date#defaultFormat} which itself my be overridden
      * in a locale file.

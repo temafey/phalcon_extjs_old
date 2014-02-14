@@ -272,7 +272,7 @@ Ext.define('Ext.AbstractComponent', {
      * *Important.* This is not a universal upwards navigation pointer. It indicates the Container which owns and manages
      * this Component if any. There are other similar relationships such as the {@link Ext.button.Button button} which activates a {@link Ext.button.Button#cfg-menu menu}, or the
      * {@link Ext.menu.Item menu item} which activated a {@link Ext.menu.Item#cfg-menu submenu}, or the
-     * {@link Ext.grid.column.Column column header} which activated the column menu.
+     * {@link Ext.grid.column.Field column header} which activated the column menu.
      *
      * These differences are abstracted away by the {@link #up} method.
      *
@@ -2250,7 +2250,7 @@ Ext.define('Ext.AbstractComponent', {
      * *Important.* There is not a universal upwards navigation pointer. There are several upwards relationships
      * such as the {@link Ext.button.Button button} which activates a {@link Ext.button.Button#cfg-menu menu}, or the
      * {@link Ext.menu.Item menu item} which activated a {@link Ext.menu.Item#cfg-menu submenu}, or the
-     * {@link Ext.grid.column.Column column header} which activated the column menu.
+     * {@link Ext.grid.column.Field column header} which activated the column menu.
      *
      * These differences are abstracted away by this method.
      *

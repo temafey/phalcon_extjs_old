@@ -497,7 +497,7 @@ Ext.define('Ext.layout.container.Form', {
      * To work around the margin-bottom issue, it is sufficient to create a 0px tall last
      * child that will "hide" the margin. This can also be handled by wrapping the children
      * in an element, again "hiding" the margin. Wrapping the elements is about the only
-     * way to preserve their right margins. This is the strategy used by Column layout.
+     * way to preserve their right margins. This is the strategy used by Field layout.
      *
      * To work around the padding-bottom problem, since it is comes from a style on the
      * parent element, about the only simple fix is to create a last child with height

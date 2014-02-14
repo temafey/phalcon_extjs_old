@@ -258,9 +258,9 @@ Ext.define("Ext.locale.th.grid.header.Container", {
     override: "Ext.grid.header.Container",
     sortAscText: "Sort Ascending",
     sortDescText: "Sort Descending",
-    lockText: "Lock Column",
-    unlockText: "Unlock Column",
-    columnsText: "Columns"
+    lockText: "Lock Field",
+    unlockText: "Unlock Field",
+    columnsText: "Fields"
 });
 
 Ext.define("Ext.locale.th.grid.GroupingFeature", {
@@ -270,8 +270,8 @@ Ext.define("Ext.locale.th.grid.GroupingFeature", {
     showGroupsText: 'Show in Groups'
 });
 
-Ext.define("Ext.locale.th.grid.PropertyColumnModel", {
-    override: "Ext.grid.PropertyColumnModel",
+Ext.define("Ext.locale.th.grid.PropertyFieldModel", {
+    override: "Ext.grid.PropertyFieldModel",
     nameText: "Name",
     valueText: "Value",
     dateFormat: "m/j/Y"

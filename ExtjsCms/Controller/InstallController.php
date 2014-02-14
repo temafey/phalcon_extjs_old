@@ -89,8 +89,9 @@ class InstallController extends Base
         $params = $this->request->getQuery();
         $params2 =$this->dispatcher->getParams();
         $gridName = $this->_getGrid($module, $grid);
+
         $grid = new $gridName($params);
-        $grid->render();
+        $t = $grid->render();
 
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }

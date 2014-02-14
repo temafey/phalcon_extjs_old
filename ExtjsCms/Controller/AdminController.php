@@ -28,63 +28,8 @@ class AdminController extends Base
 
     protected function _getMenuOptions()
     {
-        $options = [
-                [
-                    'title' => 'Events',
-                    'controller' => 'Event.controller.Event'
-                ],
-                [
-                    'title' => 'Members',
-                    'controller' => 'Event.controller.Member'
-                ],
-                [
-                    'title' => 'Campaign',
-                    'controller' => 'Event.controller.Campaign'
-                ],
-                [
-                    'title' => 'Category',
-                    'controller' => 'Event.controller.Category'
-                ],
-                [
-                    'title' => 'Locations',
-                    'controller' => 'Event.controller.Location'
-                ],
-                [
-                    'title' => 'Tags',
-                    'controller' => 'Event.controller.Tag'
-                ],
-                [
-                    'title' => 'Venues',
-                    'controller' => 'Event.controller.Venue'
-                ],
-                [    'title' => 'Event categories',
-                    'controller' => 'Event.controller.EventCategory'
-                ],
-                [
-                    'title' => 'Event site',
-                    'controller' => 'Event.controller.EventSite'
-                ],
-                [
-                    'title' => 'Event members',
-                    'controller' => 'Event.controller.EventMember'
-                ],
-                [
-                    'title' => 'Event tags',
-                    'controller' => 'Event.controller.EventTag'
-                ],
-                [
-                    'title' => 'Campaign contacts',
-                    'controller' => 'Event.controller.CampaignContact'
-                ],
-                [
-                    'title' => 'Member networks',
-                    'controller' => 'Event.controller.MemberNetwork'
-                ],
-                [
-                    'title' => 'Member filters',
-                    'controller' => 'Event.controller.MemberFilter'
-                ]
-            ];
+        $grid = new \ExtjsCms\Grid\Extjs\Menu\Item(['menu' => '1', 'status' => 'active']);
+        $options = $grid->getMenuOptions();
 
         return $options;
     }

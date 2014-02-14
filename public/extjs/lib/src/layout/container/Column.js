@@ -24,7 +24,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  * class is intended to be extended or created via the layout:'column' {@link Ext.container.Container#layout} config,
  * and should generally not need to be created directly via the new keyword.
  *
- * ColumnLayout does not have any direct config options (other than inherited ones), but it does support a specific
+ * FieldLayout does not have any direct config options (other than inherited ones), but it does support a specific
  * config property of `columnWidth` that can be included in the config of any panel added to it. The layout will use
  * the columnWidth (if present) or width of each panel during layout to determine how to size each panel. If width or
  * columnWidth is not specified for a given panel, its width will default to the panel's width (or auto).
@@ -45,18 +45,18 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     @example
  *     // All columns are percentages -- they must add up to 1
  *     Ext.create('Ext.panel.Panel', {
- *         title: 'Column Layout - Percentage Only',
+ *         title: 'Field Layout - Percentage Only',
  *         width: 350,
  *         height: 250,
  *         layout:'column',
  *         items: [{
- *             title: 'Column 1',
+ *             title: 'Field 1',
  *             columnWidth: 0.25
  *         },{
- *             title: 'Column 2',
+ *             title: 'Field 2',
  *             columnWidth: 0.55
  *         },{
- *             title: 'Column 3',
+ *             title: 'Field 3',
  *             columnWidth: 0.20
  *         }],
  *         renderTo: Ext.getBody()
@@ -67,28 +67,28 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     // columns will fill the remaining container width.
  *
  *     Ext.create('Ext.Panel', {
- *         title: 'Column Layout - Mixed',
+ *         title: 'Field Layout - Mixed',
  *         width: 350,
  *         height: 250,
  *         layout:'column',
  *         items: [{
- *             title: 'Column 1',
+ *             title: 'Field 1',
  *             width: 120
  *         },{
- *             title: 'Column 2',
+ *             title: 'Field 2',
  *             columnWidth: 0.7
  *         },{
- *             title: 'Column 3',
+ *             title: 'Field 3',
  *             columnWidth: 0.3
  *         }],
  *         renderTo: Ext.getBody()
  *     });
  */
-Ext.define('Ext.layout.container.Column', {
+Ext.define('Ext.layout.container.Field', {
 
     extend: 'Ext.layout.container.Auto',
     alias: ['layout.column'],
-    alternateClassName: 'Ext.layout.ColumnLayout',
+    alternateClassName: 'Ext.layout.FieldLayout',
 
     type: 'column',
 
@@ -96,7 +96,7 @@ Ext.define('Ext.layout.container.Column', {
 
     targetCls: Ext.baseCSSPrefix + 'column-layout-ct',
 
-    // Columns with a columnWidth have their width managed.
+    // Fields with a columnWidth have their width managed.
     columnWidthSizePolicy: {
         readsWidth: 0,
         readsHeight: 1,

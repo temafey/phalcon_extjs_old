@@ -2884,7 +2884,7 @@
  * The space between the grid header sort icon and the grid header text
  */
 /**
- * @class Ext.grid.column.Column
+ * @class Ext.grid.column.Field
  */
 /**
  * @var {string}
@@ -2938,11 +2938,11 @@
  * The amount of padding to add to the left and right of the action column cell
  */
 /**
- * @class Ext.grid.column.CheckColumn
+ * @class Ext.grid.column.CheckField
  */
 /**
  * @var {number}
- * Opacity of disabled CheckColumns
+ * Opacity of disabled CheckFields
  */
 /**
  * @class Ext.grid.column.RowNumberer
@@ -5052,14 +5052,14 @@ div.x-editor {
   cursor: default;
 }
 
-/* line 1, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 1, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header {
   position: absolute;
   overflow: hidden;
   background-repeat: repeat-x;
 }
 
-/* line 7, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 7, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-inner {
   zoom: 1;
   white-space: nowrap;
@@ -5067,7 +5067,7 @@ div.x-editor {
   overflow: hidden;
 }
 
-/* line 14, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 14, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-text {
   white-space: nowrap;
   background-repeat: no-repeat;
@@ -5075,7 +5075,7 @@ div.x-editor {
   display: inline-block;
 }
 
-/* line 25, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 25, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-trigger {
   display: none;
   height: 100%;
@@ -5086,22 +5086,22 @@ div.x-editor {
   z-index: 2;
 }
 
-/* line 43, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 43, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-over .x-column-header-trigger, .x-column-header-open .x-column-header-trigger {
   display: block;
 }
 
-/* line 48, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 48, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-align-right {
   text-align: right;
 }
 
-/* line 58, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 58, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-align-left {
   text-align: left;
 }
 
-/* line 68, ../../../ext-theme-base/sass/src/grid/column/Column.scss */
+/* line 68, ../../../ext-theme-base/sass/src/grid/column/Field.scss */
 .x-column-header-align-center {
   text-align: center;
 }
@@ -5112,7 +5112,7 @@ div.x-editor {
   font-size: 0;
 }
 
-/* line 1, ../../../ext-theme-base/sass/src/grid/column/CheckColumn.scss */
+/* line 1, ../../../ext-theme-base/sass/src/grid/column/CheckField.scss */
 .x-grid-cell-inner-checkcolumn {
   line-height: 0;
   font-size: 0;
@@ -5261,18 +5261,18 @@ td.x-grid-rowwrap .x-grid-cell {
   z-index: 4;
 }
 
-/* line 1, ../../../ext-theme-base/sass/src/layout/container/Column.scss */
+/* line 1, ../../../ext-theme-base/sass/src/layout/container/Field.scss */
 .x-column {
   float: left;
 }
 
-/* line 21, ../../../ext-theme-base/sass/src/layout/container/Column.scss */
+/* line 21, ../../../ext-theme-base/sass/src/layout/container/Field.scss */
 .x-ie6 .x-column {
   display: inline;
   /*prevent IE6 double-margin bug*/
 }
 
-/* line 25, ../../../ext-theme-base/sass/src/layout/container/Column.scss */
+/* line 25, ../../../ext-theme-base/sass/src/layout/container/Field.scss */
 .x-quirks .x-ie .x-form-layout-table, .x-quirks .x-ie .x-form-layout-table tbody tr.x-form-item {
   position: relative;
 }
@@ -15308,7 +15308,7 @@ a.x-color-picker-item:hover {
   background-image: url(images/grid/columns.gif);
 }
 
-/* line 1, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 1, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header {
   border-right: 1px solid #c5c5c5;
   color: black;
@@ -15322,23 +15322,23 @@ a.x-color-picker-item:hover {
   background-image: linear-gradient(top, #f9f9f9, #e3e4e6);
 }
 
-/* line 24, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 24, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-group-sub-header {
   background: transparent;
   border-top: 1px solid #c5c5c5;
 }
-/* line 29, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 29, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-group-sub-header .x-column-header-inner {
   padding: 3px 6px 5px 6px;
 }
 
-/* line 34, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 34, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-inner {
   padding: 4px 6px 5px 6px;
   text-overflow: ellipsis;
 }
 
-/* line 42, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 42, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-over,
 .x-column-header-sort-ASC,
 .x-column-header-sort-DESC {
@@ -15351,29 +15351,29 @@ a.x-color-picker-item:hover {
   background-image: linear-gradient(top, #ffffff, #f0f0f0);
 }
 
-/* line 51, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 51, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-nlg .x-grid-header-ct,
 .x-nlg .x-column-header {
   background-image: url(images/grid/column-header-bg.gif);
 }
 
-/* line 62, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 62, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-nlg .x-column-header-over,
 .x-nlg .x-column-header-sort-ASC,
 .x-nlg .x-column-header-sort-DESC {
   background-image: url(images/grid/column-header-over-bg.gif);
 }
 
-/* line 70, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 70, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-open {
   background-color: transparent;
 }
-/* line 73, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 73, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-open .x-column-header-trigger {
   background-color: transparent;
 }
 
-/* line 78, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 78, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-trigger {
   width: 14px;
   cursor: pointer;
@@ -15381,24 +15381,24 @@ a.x-color-picker-item:hover {
   background-position: 0 center;
 }
 
-/* line 96, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 96, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-align-right .x-column-header-text {
   margin-right: 9px;
 }
 
-/* line 110, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 110, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-sort-ASC .x-column-header-text,
 .x-column-header-sort-DESC .x-column-header-text {
   padding-right: 12px;
   background-position: right center;
 }
 
-/* line 127, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 127, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-sort-ASC .x-column-header-text {
   background-image: url(images/grid/sort_asc.gif);
 }
 
-/* line 130, ../../../ext-theme-neutral/sass/src/grid/column/Column.scss */
+/* line 130, ../../../ext-theme-neutral/sass/src/grid/column/Field.scss */
 .x-column-header-sort-DESC .x-column-header-text {
   background-image: url(images/grid/sort_desc.gif);
 }
@@ -15444,29 +15444,29 @@ a.x-color-picker-item:hover {
   cursor: pointer;
 }
 
-/* line 1, ../../../ext-theme-neutral/sass/src/grid/column/CheckColumn.scss */
+/* line 1, ../../../ext-theme-neutral/sass/src/grid/column/CheckField.scss */
 .x-grid-cell-inner-checkcolumn {
   padding: 4px 6px 3px 6px;
 }
-/* line 5, ../../../ext-theme-neutral/sass/src/grid/column/CheckColumn.scss */
+/* line 5, ../../../ext-theme-neutral/sass/src/grid/column/CheckField.scss */
 .x-grid-no-row-lines .x-grid-row-focused .x-grid-cell-inner-checkcolumn {
   padding-top: 3px;
   padding-bottom: 2px;
 }
 
-/* line 12, ../../../ext-theme-neutral/sass/src/grid/column/CheckColumn.scss */
+/* line 12, ../../../ext-theme-neutral/sass/src/grid/column/CheckField.scss */
 .x-grid-checkcolumn {
   width: 13px;
   height: 13px;
   background: url(images/form/checkbox.gif) 0 0 no-repeat;
 }
-/* line 17, ../../../ext-theme-neutral/sass/src/grid/column/CheckColumn.scss */
+/* line 17, ../../../ext-theme-neutral/sass/src/grid/column/CheckField.scss */
 .x-item-disabled .x-grid-checkcolumn {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   opacity: 0.3;
 }
 
-/* line 22, ../../../ext-theme-neutral/sass/src/grid/column/CheckColumn.scss */
+/* line 22, ../../../ext-theme-neutral/sass/src/grid/column/CheckField.scss */
 .x-grid-checkcolumn-checked {
   background-position: 0 -13px;
 }
@@ -19428,7 +19428,7 @@ body.x-nbr .x-tab-default-right-frameInfo {
   border-top-width: 0;
 }
 
-/* line 1, ../../../ext-theme-classic/sass/src/grid/column/Column.scss */
+/* line 1, ../../../ext-theme-classic/sass/src/grid/column/Field.scss */
 .x-column-header-trigger {
   background-color: #c5c5c5;
   background-image: url(images/grid/grid3-hd-btn.gif);

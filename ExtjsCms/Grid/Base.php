@@ -26,5 +26,5 @@ abstract class Base extends Grid
      * Extjs module name
      * @var string
      */
-    protected $_module = 'event';
+    protected $_module = 'extjs-cms';
 }

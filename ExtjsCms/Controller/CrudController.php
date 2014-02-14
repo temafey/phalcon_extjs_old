@@ -21,7 +21,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z]+}/{crudGrid:[a-z,-]+}/read", methods={"GET", "POST"}, name="grid-read")
+     * @Route("/{crudModule:[a-z,-]+}/{crudGrid:[a-z,-]+}/read", methods={"GET", "POST"}, name="grid-read")
      */
     public function readAction($module, $grid)
     {
@@ -36,7 +36,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z]+}/{crudForm:[a-z,-]+}/update", methods={"POST"}, name="grid-update")
+     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/update", methods={"POST"}, name="grid-update")
      */
     public function updateAction($module, $form)
     {
@@ -51,7 +51,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z]+}/{crudForm:[a-z,-]+}/delete", methods={"POST"}, name="grid-update")
+     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/delete", methods={"POST"}, name="grid-update")
      */
     public function deleteAction($module, $form)
     {
@@ -65,7 +65,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z]+}/{crudForm:[a-z,-]+}/save", methods={"POST"}, name="grid-update")
+     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/save", methods={"POST"}, name="grid-update")
      */
     public function saveAction($module, $form)
     {
@@ -82,7 +82,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/json/{crudModule:[a-z]+}/{crudForm:[a-z,-]+}", methods={"GET"}, name="grid-json")
+     * @Route("/json/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}", methods={"GET"}, name="grid-json")
      */
     public function jsonAction($module, $model)
     {
@@ -97,7 +97,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z]+}/{crudForm:[a-z,-]+}/{formField:[a-z,-]+}/options", methods={"GET"}, name="grid-json")
+     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/{formField:[a-z,-]+}/options", methods={"GET"}, name="grid-json")
      */
     public function optionsAction($module, $form, $field)
     {

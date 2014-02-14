@@ -18,8 +18,8 @@ at http://www.sencha.com/contact.
 
 Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
 */
-Ext.define('Ext.rtl.grid.column.Column', {
-    override: 'Ext.grid.column.Column',
+Ext.define('Ext.rtl.grid.column.Field', {
+    override: 'Ext.grid.column.Field',
 
     isOnLeftEdge: function(e) {
         return (!this.getHierarchyState().rtl !== !Ext.rootHierarchyState.rtl) ?

@@ -243,12 +243,12 @@
     background-color: $grid-cell-selected-background-color;
 }
 
-// Column lines on leading edge where there may be whitespace following
+// Field lines on leading edge where there may be whitespace following
 .#{$prefix}grid-with-col-lines .#{$prefix}grid-cell {
     border-right-width: $grid-row-cell-border-width;
 }
 
-// Column lines in RTL mode - leading edge is left.
+// Field lines in RTL mode - leading edge is left.
 @if $include-rtl {
     .#{$prefix}rtl.#{$prefix}grid-with-col-lines .#{$prefix}grid-cell {
         border-right-width: 0;

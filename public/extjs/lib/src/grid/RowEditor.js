@@ -84,7 +84,7 @@ Ext.define('Ext.grid.RowEditor', {
         if (me.lockable) {
             me.items = [
                 // Locked columns container shrinkwraps the fields
-                me.lockedColumnContainer = new Container({
+                me.lockedFieldContainer = new Container({
                     id: grid.id + '-locked-editor-cells',
                     layout: {
                         type: 'hbox',
@@ -95,7 +95,7 @@ Ext.define('Ext.grid.RowEditor', {
                 }),
 
                 // Normal columns container flexes the remaining RowEditor width
-                me.normalColumnContainer = new Container({
+                me.normalFieldContainer = new Container({
                     flex: 1,
                     id: grid.id + '-normal-editor-cells',
                     layout: {
@@ -105,14 +105,14 @@ Ext.define('Ext.grid.RowEditor', {
                 })
             ];
         } else {
-            me.lockedColumnContainer = me.normalColumnContainer = me;
+            me.lockedFieldContainer = me.normalFieldContainer = me;
         }
 
         me.callParent(arguments);
 
         if (me.fields) {
-            me.addFieldsForColumn(me.fields, true);
-            me.insertColumnEditor(me.fields);
+            me.addFieldsForField(me.fields, true);
+            me.insertFieldEditor(me.fields);
             delete me.fields;
         }
 
@@ -219,7 +219,7 @@ Ext.define('Ext.grid.RowEditor', {
             'keydown'
         ]);
 
-        me.fieldScroller = me.normalColumnContainer.layout.innerCt;
+        me.fieldScroller = me.normalFieldContainer.layout.innerCt;
         me.fieldScroller.dom.style.overflow = 'hidden';
         me.fieldScroller.on({
             scroll: me.onFieldContainerScroll,
@@ -243,7 +243,7 @@ Ext.define('Ext.grid.RowEditor', {
         me.preventReposition = true;
         Ext.Array.each(me.query('[isFormField]'), function(field) {
             if (field.column.isVisible()) {
-                me.onColumnShow(field.column);
+                me.onFieldShow(field.column);
             }
         }, me);
         delete me.preventReposition;    
@@ -335,7 +335,7 @@ Ext.define('Ext.grid.RowEditor', {
         this.scrollingViewEl.setScrollLeft(this.fieldScroller.getScrollLeft());
     },
 
-    onColumnResize: function(column, width) {
+    onFieldResize: function(column, width) {
         var me = this;
 
         if (me.rendered) {
@@ -349,14 +349,14 @@ Ext.define('Ext.grid.RowEditor', {
         }
     },
 
-    onColumnHide: function(column) {
+    onFieldHide: function(column) {
         if (!column.isGroupHeader) {
             column.getEditor().hide();
             this.repositionIfVisible();
         }
     },
 
-    onColumnShow: function(column) {
+    onFieldShow: function(column) {
         var me = this;
 
         if (me.rendered && !column.isGroupHeader) {
@@ -368,22 +368,22 @@ Ext.define('Ext.grid.RowEditor', {
         }
     },
 
-    onColumnMove: function(column, fromIdx, toIdx) {
+    onFieldMove: function(column, fromIdx, toIdx) {
         var me = this,
             i, incr = 1, len, field, fieldIdx,
-            fieldContainer = column.isLocked() ? me.lockedColumnContainer : me.normalColumnContainer;
+            fieldContainer = column.isLocked() ? me.lockedFieldContainer : me.normalFieldContainer;
 
         // If moving a group, move each leaf header
         if (column.isGroupHeader) {
             Ext.suspendLayouts();
-            column = column.getGridColumns();
+            column = column.getGridFields();
 
             if (toIdx > fromIdx) {
                 toIdx--;
                 incr = 0;
             }
 
-            this.addFieldsForColumn(column);
+            this.addFieldsForField(column);
             for (i = 0, len = column.length; i < len; i++, fromIdx += incr, toIdx += incr) {
                 field = column[i].getEditor();
                 fieldIdx = fieldContainer.items.indexOf(field);
@@ -394,7 +394,7 @@ Ext.define('Ext.grid.RowEditor', {
                     fieldContainer.insert(toIdx, field);
                 }
 
-                // If the field has not already been processed by an onColumnAdd (move from a group header INTO the main headerCt), then move it
+                // If the field has not already been processed by an onFieldAdd (move from a group header INTO the main headerCt), then move it
                 else if (fieldIdx != toIdx) {
                     fieldContainer.move(fromIdx, toIdx);
                 }
@@ -404,7 +404,7 @@ Ext.define('Ext.grid.RowEditor', {
             if (toIdx > fromIdx) {
                 toIdx--;
             }
-            this.addFieldsForColumn(column);
+            this.addFieldsForField(column);
             field = column.getEditor();
             fieldIdx = fieldContainer.items.indexOf(field);
             if (fieldIdx === -1) {
@@ -416,26 +416,26 @@ Ext.define('Ext.grid.RowEditor', {
         }
     },
 
-    onColumnAdd: function(column) {
+    onFieldAdd: function(column) {
 
         // If a column header added, process its leaves
         if (column.isGroupHeader) {
-            column = column.getGridColumns();
+            column = column.getGridFields();
         }
         //this.preventReposition = true;
-        this.addFieldsForColumn(column);
-        this.insertColumnEditor(column);
+        this.addFieldsForField(column);
+        this.insertFieldEditor(column);
         this.preventReposition = false;
     },
 
-    insertColumnEditor: function(column) {
+    insertFieldEditor: function(column) {
         var me = this,
             fieldContainer,
             len, i;
 
         if (Ext.isArray(column)) {
             for (i = 0, len = column.length; i < len; i++) {
-                me.insertColumnEditor(column[i]);
+                me.insertFieldEditor(column[i]);
             }
             return;
         }
@@ -444,25 +444,25 @@ Ext.define('Ext.grid.RowEditor', {
             return;
         }
 
-        fieldContainer = column.isLocked() ? me.lockedColumnContainer : me.normalColumnContainer;
+        fieldContainer = column.isLocked() ? me.lockedFieldContainer : me.normalFieldContainer;
         
         // Insert the column's field into the editor panel.
         fieldContainer.insert(column.getVisibleIndex(), column.getEditor());
     },
 
-    onColumnRemove: function(ct, column) {
-        column = column.isGroupHeader ? column.getGridColumns() : column;
-        this.removeColumnEditor(column);
+    onFieldRemove: function(ct, column) {
+        column = column.isGroupHeader ? column.getGridFields() : column;
+        this.removeFieldEditor(column);
     },
 
-    removeColumnEditor: function(column) {
+    removeFieldEditor: function(column) {
         var me = this,
             field,
             len, i;
 
         if (Ext.isArray(column)) {
             for (i = 0, len = column.length; i < len; i++) {
-                me.removeColumnEditor(column[i]);
+                me.removeFieldEditor(column[i]);
             }
             return;
         }
@@ -475,8 +475,8 @@ Ext.define('Ext.grid.RowEditor', {
         }
     },
 
-    onColumnReplace: function(map, fieldId, column, oldColumn) {
-        this.onColumnRemove(oldColumn.ownerCt, oldColumn);
+    onFieldReplace: function(map, fieldId, column, oldField) {
+        this.onFieldRemove(oldField.ownerCt, oldField);
     },
 
     getFloatingButtons: function() {
@@ -518,8 +518,8 @@ Ext.define('Ext.grid.RowEditor', {
             result;
 
         if (me.lockable) {
-            result = me.lockedColumnContainer.getRefItems();
-            result.push.apply(result, me.normalColumnContainer.getRefItems());
+            result = me.lockedFieldContainer.getRefItems();
+            result.push.apply(result, me.normalFieldContainer.getRefItems());
         } else {
             result = me.callParent();
         }
@@ -655,14 +655,14 @@ Ext.define('Ext.grid.RowEditor', {
         }
     },
 
-    addFieldsForColumn: function(column, initial) {
+    addFieldsForField: function(column, initial) {
         var me = this,
             i,
             length, field;
 
         if (Ext.isArray(column)) {
             for (i = 0, length = column.length; i < length; i++) {
-                me.addFieldsForColumn(column[i], initial);
+                me.addFieldsForField(column[i], initial);
             }
             return;
         }
@@ -688,7 +688,7 @@ Ext.define('Ext.grid.RowEditor', {
 
             if (me.isVisible() && me.context) {
                 if (field.is('displayfield')) {
-                    me.renderColumnData(field, me.context.record, column);
+                    me.renderFieldData(field, me.context.record, column);
                 } else {
                     field.suspendEvents();
                     field.setValue(me.context.record.get(column.dataIndex));
@@ -696,10 +696,10 @@ Ext.define('Ext.grid.RowEditor', {
                 }
             }
             if (column.hidden) {
-                me.onColumnHide(column);
+                me.onFieldHide(column);
             } else if (column.rendered && !initial) {
                 // Setting after initial render
-                me.onColumnShow(column);
+                me.onFieldShow(column);
             }
         }
     },
@@ -740,17 +740,17 @@ Ext.define('Ext.grid.RowEditor', {
         length = displayFields.length;
 
         for (i = 0; i < length; i++) {
-            me.renderColumnData(displayFields[i], record);
+            me.renderFieldData(displayFields[i], record);
         }
     },
 
-    renderColumnData: function(field, record, activeColumn) {
+    renderFieldData: function(field, record, activeField) {
         var me = this,
             grid = me.editingPlugin.grid,
             headerCt = grid.headerCt,
             view = me.scrollingView,
             store = view.dataSource,
-            column = activeColumn || field.column,
+            column = activeField || field.column,
             value = record.get(column.dataIndex),
             renderer = column.editRenderer || column.renderer,
             metaData,
@@ -798,7 +798,7 @@ Ext.define('Ext.grid.RowEditor', {
     /**
      * Start editing the specified grid at the specified position.
      * @param {Ext.data.Model} record The Store data record which backs the row to be edited.
-     * @param {Ext.data.Model} columnHeader The Column object defining the column to be edited.
+     * @param {Ext.data.Model} columnHeader The Field object defining the column to be edited.
      */
     startEdit: function(record, columnHeader) {
         var me = this,

@@ -116,8 +116,8 @@ Ext.define('Ext.panel.Table', {
     scroll: true,
 
     /**
-     * @cfg {Ext.grid.column.Column[]/Object} columns
-     * An array of {@link Ext.grid.column.Column column} definition objects which define all columns that appear in this
+     * @cfg {Ext.grid.column.Field[]/Object} columns
+     * An array of {@link Ext.grid.column.Field column} definition objects which define all columns that appear in this
      * grid. Each column definition provides the header text for the column, and a definition of where the data for that
      * column comes from.
      *
@@ -128,10 +128,10 @@ Ext.define('Ext.panel.Table', {
      *     columns: {
      *         items: [
      *             {
-     *                 text: "Column A"
+     *                 text: "Field A"
      *                 dataIndex: "field_A"
      *             },{
-     *                 text: "Column B",
+     *                 text: "Field B",
      *                 dataIndex: "field_B"
      *             }, 
      *             ...
@@ -195,15 +195,15 @@ Ext.define('Ext.panel.Table', {
     deferRowRender: true,
      
     /**
-     * @cfg {Boolean} sortableColumns
+     * @cfg {Boolean} sortableFields
      * False to disable column sorting via clicking the header and via the Sorting menu items.
      */
-    sortableColumns: true,
+    sortableFields: true,
 
     /**
      * @cfg {Boolean} [enableLocking=false]
      * Configure as `true` to enable locking support for this grid. Alternatively, locking will also be automatically
-     * enabled if any of the columns in the {@link #columns columns} configuration contain a {@link Ext.grid.column.Column#locked locked} config option.
+     * enabled if any of the columns in the {@link #columns columns} configuration contain a {@link Ext.grid.column.Field#locked locked} config option.
      * 
      * A locking grid is processed in a special way. The configuration options are cloned and *two* grids are created to be the locked (left) side
      * and the normal (right) side. This Panel becomes merely a {@link Ext.container.Container container} which arranges both in an {@link Ext.layout.container.HBox HBox} layout.
@@ -232,26 +232,26 @@ Ext.define('Ext.panel.Table', {
     scrollerOwner: true,
 
     /**
-     * @cfg {Boolean} [enableColumnMove=true]
+     * @cfg {Boolean} [enableFieldMove=true]
      * False to disable column dragging within this grid.
      */
-    enableColumnMove: true,
+    enableFieldMove: true,
     
     /**
-     * @cfg {Boolean} [sealedColumns=false]
+     * @cfg {Boolean} [sealedFields=false]
      * True to constrain column dragging so that a column cannot be dragged in or out of it's
-     * current group. Only relevant while {@link #enableColumnMove} is enabled.
+     * current group. Only relevant while {@link #enableFieldMove} is enabled.
      */
-    sealedColumns: false,
+    sealedFields: false,
 
     /**
-     * @cfg {Boolean} [enableColumnResize=true]
+     * @cfg {Boolean} [enableFieldResize=true]
      * False to disable column resizing within this grid.
      */
-    enableColumnResize: true,
+    enableFieldResize: true,
 
     /**
-     * @cfg {Boolean} [enableColumnHide=true]
+     * @cfg {Boolean} [enableFieldHide=true]
      * False to disable column hiding within this grid.
      */
 
@@ -280,12 +280,12 @@ Ext.define('Ext.panel.Table', {
      */
 
     /**
-     * @property {Boolean} optimizedColumnMove
+     * @property {Boolean} optimizedFieldMove
      * If you are writing a grid plugin or a {Ext.grid.feature.Feature Feature} which creates a column-based structure which
      * needs a view refresh when columns are moved, then set this property in the grid.
      *
      * An example is the built in {@link Ext.grid.feature.AbstractSummary Summary} Feature. This creates summary rows, and the
-     * summary columns must be in the same order as the data columns. This plugin sets the `optimizedColumnMove` to `false.
+     * summary columns must be in the same order as the data columns. This plugin sets the `optimizedFieldMove` to `false.
      */
     
     colLinesCls: Ext.baseCSSPrefix + 'grid-with-col-lines',
@@ -326,16 +326,16 @@ Ext.define('Ext.panel.Table', {
         }
         //</debug>
 
-        // The columns/colModel config may be either a fully instantiated HeaderContainer, or an array of Column definitions, or a config object of a HeaderContainer
-        // Either way, we extract a columns property referencing an array of Column definitions.
+        // The columns/colModel config may be either a fully instantiated HeaderContainer, or an array of Field definitions, or a config object of a HeaderContainer
+        // Either way, we extract a columns property referencing an array of Field definitions.
         if (headerCtCfg instanceof Ext.grid.header.Container) {
             headerCtCfg.isRootHeader = true;
             me.headerCt = headerCtCfg;
         } else {
 
-            // If any of the Column objects contain a locked property, and are not processed, this is a lockable TablePanel, a
+            // If any of the Field objects contain a locked property, and are not processed, this is a lockable TablePanel, a
             // special view will be injected by the Ext.grid.locking.Lockable mixin, so no processing of .
-            if (me.enableLocking || me.hasLockedColumns(headerCtCfg)) {
+            if (me.enableLocking || me.hasLockedFields(headerCtCfg)) {
                 me.self.mixin('lockable', Ext.grid.locking.Lockable);
                 me.injectLockable();
             }
@@ -349,15 +349,15 @@ Ext.define('Ext.panel.Table', {
                 Ext.apply(headerCtCfg, {
                     grid: me,
                     forceFit: me.forceFit,
-                    sortable: me.sortableColumns,
-                    enableColumnMove: me.enableColumnMove,
-                    enableColumnResize: me.enableColumnResize,
-                    sealed: me.sealedColumns,
+                    sortable: me.sortableFields,
+                    enableFieldMove: me.enableFieldMove,
+                    enableFieldResize: me.enableFieldResize,
+                    sealed: me.sealedFields,
                     isRootHeader: true
                 });
 
-                if (Ext.isDefined(me.enableColumnHide)) {
-                    headerCtCfg.enableColumnHide = me.enableColumnHide;
+                if (Ext.isDefined(me.enableFieldHide)) {
+                    headerCtCfg.enableFieldHide = me.enableFieldHide;
                 }
 
                 // Create our HeaderCOntainer from the generated configuration
@@ -368,7 +368,7 @@ Ext.define('Ext.panel.Table', {
         }
 
         // Maintain backward compatibiliy by providing the initial column set as a property.
-        me.columns = me.headerCt.getGridColumns();
+        me.columns = me.headerCt.getGridFields();
 
         me.scrollTask = new Ext.util.DelayedTask(me.syncHorizontalScroll, me);
 
@@ -396,8 +396,8 @@ Ext.define('Ext.panel.Table', {
         // then a special lockable view containing 2 side-by-side grids will have been injected so we do not need to set up any UI.
         if (!me.hasView) {
 
-            // Extract the array of leaf Column objects
-            columns = me.headerCt.getGridColumns();
+            // Extract the array of leaf Field objects
+            columns = me.headerCt.getGridFields();
 
             // If the Store is paging blocks of the dataset in, then it can only be sorted remotely.
             if (store.buffered && !store.remoteSort) {
@@ -686,14 +686,14 @@ Ext.define('Ext.panel.Table', {
         me.callParent(arguments);
         me.addStateEvents(['columnresize', 'columnmove', 'columnhide', 'columnshow', 'sortchange', 'filterchange']);
 
-        // If lockable, the headerCt is just a collection of Columns, not a Container
+        // If lockable, the headerCt is just a collection of Fields, not a Container
         if (!me.lockable && me.headerCt) {
             me.headerCt.on('afterlayout', me.onRestoreHorzScroll, me);
         }
     },
 
     // Private. Determine if there are any columns with a locked configuration option
-    hasLockedColumns: function(columns) {
+    hasLockedFields: function(columns) {
         var i,
             len,
             column;
@@ -765,7 +765,7 @@ Ext.define('Ext.panel.Table', {
             state = me.callParent(),
             storeState = me.store.getState();
 
-        state = me.addPropertyToState(state, 'columns', me.headerCt.getColumnsState());
+        state = me.addPropertyToState(state, 'columns', me.headerCt.getFieldsState());
 
         if (storeState) {
             state.storeState = storeState;
@@ -787,7 +787,7 @@ Ext.define('Ext.panel.Table', {
         me.callParent(arguments);
 
         if (columns) {
-            me.headerCt.applyColumnsState(columns);
+            me.headerCt.applyFieldsState(columns);
         }
 
         // Old stored sort state. Deprecated and will die out.
@@ -889,7 +889,7 @@ Ext.define('Ext.panel.Table', {
             header;
 
         if (cellIndex !== -1) {
-            header = me.columnManager.getColumns()[cellIndex];
+            header = me.columnManager.getFields()[cellIndex];
             return header.processEvent.apply(header, arguments);
         }
     },
@@ -952,15 +952,15 @@ Ext.define('Ext.panel.Table', {
     onHeaderMove: function(headerCt, header, colsToMove, fromIdx, toIdx) {
         var me = this;
 
-        // If there are Features or Plugins which create DOM which must match column order, they set the optimizedColumnMove flag to false.
+        // If there are Features or Plugins which create DOM which must match column order, they set the optimizedFieldMove flag to false.
         // In this case we must refresh the view on column move.
-        if (me.optimizedColumnMove === false) {
+        if (me.optimizedFieldMove === false) {
             me.view.refresh();
         }
 
         // Simplest case for default DOM structure is just to swap the columns round in the view.
         else {
-            me.view.moveColumn(fromIdx, toIdx, colsToMove);
+            me.view.moveField(fromIdx, toIdx, colsToMove);
         }
         me.delayScroll();
     },
@@ -1202,14 +1202,14 @@ Ext.define('Ext.panel.Table', {
             originalDeferinitialRefresh,
             oldStore = me.store,
             headerCt = me.headerCt,
-            oldColumns = headerCt ? headerCt.items.getRange() : me.columns;
+            oldFields = headerCt ? headerCt.items.getRange() : me.columns;
 
         // Make copy in case the beforereconfigure listener mutates it.
         if (columns) {
             columns = Ext.Array.slice(columns);
         }
 
-        me.fireEvent('beforereconfigure', me, store, columns, oldStore, oldColumns);
+        me.fireEvent('beforereconfigure', me, store, columns, oldStore, oldFields);
         if (me.lockable) {
             me.reconfigureLockable(store, columns);
         } else {
@@ -1239,7 +1239,7 @@ Ext.define('Ext.panel.Table', {
             headerCt.setSortState();
             Ext.resumeLayouts(true);
         }
-        me.fireEvent('reconfigure', me, store, columns, oldStore, oldColumns);
+        me.fireEvent('reconfigure', me, store, columns, oldStore, oldFields);
     },
     
     beforeDestroy: function(){
