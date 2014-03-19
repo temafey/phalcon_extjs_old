@@ -8,7 +8,7 @@ use ExtjsCms\Form\Base,
     Engine\Crud\Form\Field;
 
 /**
- * Class Privilege
+ * Class Access
  *
  * @category    Module
  * @package     Acl

@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Menu;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -113,13 +113,27 @@ class Item extends Base
     {
         $this->_limitParamValue = 100;
         $rows = $this->getColumnData();
+
+        $acl = $this->_di->get('acl');
+        $viewer = $this->_di->get('viewer');
+
         $options = [];
         foreach ($rows as $row) {
             $option = [];
-            $option['title'] = $row['title'];
-            $option['controller'] = ($row['module'] && $row['controller']) ?
-                \Phalcon\Text::camelize($row['module']).".controller.".\Phalcon\Text::camelize($row['controller'])
-                : '';
+            $option['id'] = $row['id'];
+            $option['text'] = $row['title'];
+            if ($row['module'] && $row['controller']) {
+                if (!$acl->isAllowed($viewer->getRole(), $row['module'], $row['controller'], 'read')) {
+                    continue;
+                }
+                $option['controller'] = \Phalcon\Text::camelize($row['module']).".controller.".\Phalcon\Text::camelize($row['controller']);
+                $option['moduleName'] = \Phalcon\Text::camelize($row['module']);
+                $option['controllerName'] = \Phalcon\Text::camelize($row['controller']);
+                $option['leaf'] = true;
+                $option['cls'] = 'window-list-item';
+                $option['iconCls'] = 'window-list-item-icon';
+            }
+            $option['qtip'] = $row['description'];
             $options[] = $option;
         }
 

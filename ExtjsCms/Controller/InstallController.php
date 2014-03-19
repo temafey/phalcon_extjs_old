@@ -9,6 +9,7 @@ use Phalcon\Mvc\View;
 /**
  * @RoutePrefix("/admin/extjs", name="home")
  */
+//@Acl(actions={"controller","model","store","storeLocal","grid","win","form"}, options={"crud_install"})
 class InstallController extends Base
 {
     public function initialize()
@@ -79,6 +80,15 @@ class InstallController extends Base
     }
 
     /**
+     * @Route("/apps/{crudModule:[A-Za-z]+}/view/{crudGrid:[A-Za-z]+}/Filter.js", methods={"GET"}, name="crud-grid")
+     */
+    public function filterAction($module, $grid)
+    {
+        $this->_filter($module, $grid);
+        echo file_get_contents(PUBLIC_PATH."/extjs/apps/".ucfirst($module)."/view/".$grid."/Filter.js");
+    }
+
+    /**
      * Render javascript models
      *
      * @param string $module
@@ -92,6 +102,25 @@ class InstallController extends Base
 
         $grid = new $gridName($params);
         $t = $grid->render();
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
+    /**
+     * Render javascript models
+     *
+     * @param string $module
+     * @param string $grid
+     */
+    protected function _filter($module, $grid)
+    {
+        $params = $this->request->getQuery();
+        $params2 =$this->dispatcher->getParams();
+        $gridName = $this->_getGrid($module, $grid);
+
+        $grid = new $gridName($params);
+        $filter = $grid->getFilter();
+        $t = $filter->render();
 
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }

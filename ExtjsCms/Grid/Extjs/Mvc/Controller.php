@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Mvc;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 

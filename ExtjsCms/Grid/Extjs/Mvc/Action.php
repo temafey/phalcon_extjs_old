@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Mvc;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -52,7 +52,7 @@ class Action extends Base
     {
 		$this->_columns = [
 			'id'        => new Column\Primary('Id'),
-			'modules'   => new Column\JoinOne('Module', ['\ExtjsCms\Model\Mvc\Controller', '\ExtjsCms\Model\Mvc\Module']),
+			'module'   => new Column\JoinOne('Module', ['\ExtjsCms\Model\Mvc\Controller', '\ExtjsCms\Model\Mvc\Module']),
 			'controller'=> new Column\JoinOne('Controller', '\ExtjsCms\Model\Mvc\Controller'),
 			'name'      => new Column\Name("Action"),
 			'status'    => new Column\Collection("Status", 'status', ['active' => 'Active', 'not_active' => 'Not active'])
@@ -89,7 +89,7 @@ class Action extends Base
 				]
 			]),
     		'id'         => new Field\Primary('Id'),
-    		'module'     => new Field\Join('module_id', 'Modules', '\ExtjsCms\Model\Mvc\Module', ['\ExtjsCms\Model\Mvc\Controller', '\ExtjsCms\Model\Mvc\Module']),
+    		'module'     => new Field\Join('Modules', '\ExtjsCms\Model\Mvc\Module', ['\ExtjsCms\Model\Mvc\Controller', '\ExtjsCms\Model\Mvc\Module']),
        		'controller' => new Field\Join('Controllers', '\ExtjsCms\Model\Mvc\Controller'),
             'status'     => new Field\ArrayToSelect('Status', 'status', ['active' => 'Active', 'not_active' => 'Not active'])
         ]);

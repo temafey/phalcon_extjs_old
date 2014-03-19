@@ -5,10 +5,10 @@
 namespace ExtjsCms\Model\Acl;
 
 /**
- * Class event.
+ * Class Resource
  *
  * @category   Module
- * @package    Event
+ * @package    Acl
  * @subpackage Model
  */
 class Resource extends \Engine\Mvc\Model
@@ -54,7 +54,7 @@ class Resource extends \Engine\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany("id", "\ExtjsCms\Model\Acl\AccessList", "resource_id", ['alias' => 'AccessList']);
+        $this->hasMany("id", "\ExtjsCms\Model\Acl\Accesslist", "resource_id", ['alias' => 'Accesslist']);
         $this->hasMany("id", "\ExtjsCms\Model\Acl\Access", "resource_id", ['alias' => 'Access']);
     }
 

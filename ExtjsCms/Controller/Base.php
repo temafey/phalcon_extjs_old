@@ -35,6 +35,9 @@ class Base extends PhController
             //->addJs('extjs/lib/ext-all.js')
             ->addJs($scriptModulePath.'/static/include-ext.js')
             ->addJs($scriptModulePath.'/static/options-toolbar.js')
+            ->addJs('extjs/lib/ux/router/Route.js')
+            ->addJs('extjs/lib/ux/router/Router.js')
+            ->addJs($scriptModulePath.'/static/router.js')
             ->addCss($scriptModulePath."/css/style.css");
             //->addJs('extjs/lib/ext-all-rtl-debug-w-comments.js');
 

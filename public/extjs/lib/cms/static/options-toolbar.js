@@ -6,7 +6,7 @@
 
     function hasOption(opt) {
         var s = window.location.search;
-        var re = new RegExp('(?:^|[&?])' + opt + '(?:[=]([^&]*))?(?:$|[&])', 'i');
+        var re = new RegExp('(?:^|[&?])' + opt + '(?: [=]([^&]*))?(?:$|[&])', 'i');
         var m = re.exec(s);
 
         return m ? (m[1] === undefined ? true : m[1]) : false;

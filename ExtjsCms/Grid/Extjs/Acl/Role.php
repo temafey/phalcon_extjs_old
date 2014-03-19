@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Acl;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -53,7 +53,7 @@ class Role extends Base
 		$this->_columns = [
 			'id'        => new Column\Primary('Id'),
 			'name'      => new Column\Name('Name'),
-            //'accesslist'=> new Column\JoinMany('Role access list', '\ExtjsCms\Model\Acl\AccessList', null, null, ', ', 5),
+            //'accesslist'=> new Column\JoinMany('Role access list', '\ExtjsCms\Model\Acl\Accesslist', null, null, ', ', 5),
 			//'inherit'   => new Column\JoinMany('Role inherit', '\ExtjsCms\Model\Acl\RoleInherit', null, null, ', ', 5),
             'description'      => new Column\Text('Desc', 'description')
 		];

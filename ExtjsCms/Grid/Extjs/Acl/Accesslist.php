@@ -6,24 +6,24 @@ namespace ExtjsCms\Grid\Extjs\Acl;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
 /**
- * Class Privilege
+ * Class Accesslist
  *
  * @category    Module
  * @package     Acl
  * @subpackage  Grid
  */
-class AccessList extends Base
+class Accesslist extends Base
 {
     /**
      * Extjs grid key
      * @var string
      */
-    protected $_key = 'acl-access-list';
+    protected $_key = 'acl-accesslist';
 
     /**
      * Grid title
@@ -35,7 +35,7 @@ class AccessList extends Base
      * Container model
      * @var string
      */
-    protected $_containerModel = '\ExtjsCms\Model\Acl\AccessList';
+    protected $_containerModel = '\ExtjsCms\Model\Acl\Accesslist';
 
     /**
      * Container condition
@@ -56,7 +56,7 @@ class AccessList extends Base
             'role'     => new Column\JoinOne('Role', '\ExtjsCms\Model\Acl\Role'),
 			'resource' => new Column\JoinOne('Resource', '\ExtjsCms\Model\Acl\Resource'),
 			'access'   => new Column\JoinOne('Access', '\ExtjsCms\Model\Acl\Access'),
-            'allowed'  => new Column\Collection('Status', ['0' => 'not active', '1' => 'active'])
+            'allowed'  => new Column\Collection('Status', null, ['0' => 'not active', '1' => 'active'])
 		];
     }
 

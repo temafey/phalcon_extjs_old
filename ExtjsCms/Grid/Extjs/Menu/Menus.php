@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Menu;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -52,8 +52,8 @@ class Menus extends Base
     {
 		$this->_columns = [
 			'id'    => new Column\Primary('Id'),
-			'key'   => new Column\Name('Name'),
-			//'item' => new Column\JoinMany('Items', '\ExtjsCms\Model\Menu\Item', null, null, ', ', 5, '150')
+			'title'   => new Column\Name('Name'),
+			'items' => new Column\JoinMany('Items', '\ExtjsCms\Model\Menu\Item', null, null, ', ', 5)
 		];
 		//$this->_columns['item']->setAction('menu-item', 'menu');
     }

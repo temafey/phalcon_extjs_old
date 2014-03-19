@@ -1,8 +1,8 @@
-Ext.define('Cms.WindowInfo', {
+Ext.define('Cms.view.WindowInfo', {
 
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsWindowInfo',
-    requires: ['Cms.WindowDetail'],
+    requires: ['Cms.view.WindowDetail'],
     maxTabWidth: 230,
     border: false,
 

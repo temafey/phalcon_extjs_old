@@ -5,13 +5,13 @@
 namespace ExtjsCms\Model\Acl;
 
 /**
- * Class event.
+ * Class Accesslist
  *
  * @category   Module
- * @package    Event
+ * @package    Acl
  * @subpackage Model
  */
-class AccessList extends \Engine\Mvc\Model
+class Accesslist extends \Engine\Mvc\Model
 {
     /**
      *
@@ -48,7 +48,7 @@ class AccessList extends \Engine\Mvc\Model
      */
     public function initialize()
     {
-        $this->belongsTo("member_id", "\ExtjsCms\Model\Member", "id", ['alias' => 'Member']);
+        $this->belongsTo("role_id", "\ExtjsCms\Model\Acl\Role", "id", ['alias' => 'Role']);
         $this->belongsTo("resource_id", "\ExtjsCms\Model\Acl\Resource", "id", ['alias' => 'Resource']);
         $this->belongsTo("access_id", "\ExtjsCms\Model\Acl\Access", "id", ['alias' => 'Access']);
     }

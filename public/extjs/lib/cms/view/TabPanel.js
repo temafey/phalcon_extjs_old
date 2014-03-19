@@ -1,4 +1,4 @@
-Ext.define('Cms.TabPanel', {
+Ext.define('Cms.view.TabPanel', {
 
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsTabPanel',

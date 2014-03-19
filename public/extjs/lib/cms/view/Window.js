@@ -1,4 +1,4 @@
-Ext.define('Cms.Window', {
+Ext.define('Cms.view.Window', {
     extend: 'Ext.window.Window',
 
     alias: 'widget.cmsWindow',

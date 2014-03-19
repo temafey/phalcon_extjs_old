@@ -1,4 +1,4 @@
-Ext.define('Cms.WindowPost', {
+Ext.define('Cms.view.WindowPost', {
 
     extend: 'Ext.panel.Panel',
     alias: 'widget.cmsWindowPost',

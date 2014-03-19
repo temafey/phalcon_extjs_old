@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Acl;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -54,7 +54,7 @@ class Access extends Base
 			'id'         => new Column\Primary('Id'),
 			'name'       => new Column\Name('Name'),
 			'resource'   => new Column\JoinOne('Resource', '\ExtjsCms\Model\Acl\Resource'),
-            //'accesslist' => new Column\JoinMany('Access list', '\ExtjsCms\Model\Acl\AccessList', null, null, ', ', 5),
+            //'accesslist' => new Column\JoinMany('Access list', '\ExtjsCms\Model\Acl\Accesslist', null, null, ', ', 5),
 		];
         //$this->_columns['accesslist']->setAction('acl-access-list', 'access');
     }

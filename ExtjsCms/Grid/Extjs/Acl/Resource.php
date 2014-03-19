@@ -6,7 +6,7 @@ namespace ExtjsCms\Grid\Extjs\Acl;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
@@ -54,7 +54,7 @@ class Resource extends Base
 			'id'        =>  new Column\Primary('Id'),
 			'name'      =>  new Column\Name('Name'),
 			//'access'    =>  new Column\JoinMany('Aceesses', '\ExtjsCms\Model\Acl\Access', null, null, ', ', 5),
-            //'accesslist'=> new Column\JoinMany('Resource access list', '\ExtjsCms\Model\Acl\AccessList', null, null, ', ', 5),
+            //'accesslist'=> new Column\JoinMany('Resource access list', '\ExtjsCms\Model\Acl\Accesslist', null, null, ', ', 5),
             'description'      => new Column\Text('Desc', 'description')
 		];
 		//$this->_columns['access']->setAction('acl-access', 'resource');

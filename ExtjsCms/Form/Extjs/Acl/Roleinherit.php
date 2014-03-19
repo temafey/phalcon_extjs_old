@@ -8,19 +8,19 @@ use ExtjsCms\Form\Base,
     Engine\Crud\Form\Field;
 
 /**
- * Class Privilege
+ * Class Roleinherit
  *
  * @category    Module
  * @package     Acl
  * @subpackage  Form
  */
-class Privilege extends Base
+class Roleinherit extends Base
 {
     /**
      * Extjs form key
      * @var string
      */
-    protected $_key = 'acl-role-inherit';
+    protected $_key = 'acl-roleinherit';
 
     /**
      * Form title
@@ -32,7 +32,7 @@ class Privilege extends Base
      * Container model
      * @var string
      */
-    protected $_containerModel = '\ExtjsCms\Model\Acl\RoleInherit';
+    protected $_containerModel = '\ExtjsCms\Model\Acl\Roleinherit';
 
     /**
      * Container condition
@@ -49,9 +49,8 @@ class Privilege extends Base
     {
 		$this->_fields = [
 			'id'        => new Field\Primary('Id'),
-			'name'      => new Field\Name('Name'),
 			'role'      => new Field\ManyToOne('Role', '\ExtjsCms\Model\Acl\Role'),
-            'inherit'   => new Field\Text('Inherit', 'role_inherit')
+            'inherit'   => new Field\ManyToOne('Inherit role', '\ExtjsCms\Model\Acl\RoleToInherit')
 		];
     }
 }

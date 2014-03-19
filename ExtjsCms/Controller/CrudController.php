@@ -9,17 +9,9 @@ use Phalcon\Mvc\View;
 /**
  * @RoutePrefix("/admin", name="home")
  */
+//@Acl(actions={"read","update,"save","delete","json","options"}, options={"crud_operations"})
 class CrudController extends Base
 {
-    /**
-     * @Route("/", methods={"GET"}, name="home")
-     */
-    public function indexAction()
-    {
-        $this->view->grid = '';
-        $this->view->pick('grid/grid');
-    }
-
     /**
      * @Route("/{crudModule:[a-z,-]+}/{crudGrid:[a-z,-]+}/read", methods={"GET", "POST"}, name="grid-read")
      */
@@ -97,7 +89,7 @@ class CrudController extends Base
     }
 
     /**
-     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/{formField:[a-z,-]+}/options", methods={"GET"}, name="grid-json")
+     * @Route("/{crudModule:[a-z,-]+}/{crudForm:[a-z,-]+}/{formField:[a-z,-,_]+}/options", methods={"GET"}, name="grid-options-json")
      */
     public function optionsAction($module, $form, $field)
     {

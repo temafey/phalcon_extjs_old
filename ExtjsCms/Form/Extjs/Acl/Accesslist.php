@@ -8,19 +8,19 @@ use ExtjsCms\Form\Base,
     Engine\Crud\Form\Field;
 
 /**
- * Class Privilege
+ * Class Accesslist
  *
  * @category    Module
  * @package     Acl
  * @subpackage  Form
  */
-class AccessList extends Base
+class Accesslist extends Base
 {
     /**
      * Extjs form key
      * @var string
      */
-    protected $_key = 'acl-access-list';
+    protected $_key = 'acl-accesslist';
 
     /**
      * Form title
@@ -32,7 +32,7 @@ class AccessList extends Base
      * Container model
      * @var string
      */
-    protected $_containerModel = '\ExtjsCms\Model\Acl\AccessList';
+    protected $_containerModel = '\ExtjsCms\Model\Acl\Accesslist';
 
     /**
      * Container condition

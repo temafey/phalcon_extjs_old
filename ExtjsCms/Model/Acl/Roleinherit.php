@@ -5,19 +5,19 @@
 namespace ExtjsCms\Model\Acl;
 
 /**
- * Class event.
+ * Class Roleinherit
  *
  * @category   Module
- * @package    Event
+ * @package    Acl
  * @subpackage Model
  */
-class RoleInherit extends \Engine\Mvc\Model
+class Roleinherit extends \Engine\Mvc\Model
 {
     /**
      * Default name column
      * @var string
      */
-    protected $_nameExpr = 'role_inherit';
+    protected $_nameExpr = 'role_id';
 
     /**
      * Default order name
@@ -47,7 +47,7 @@ class RoleInherit extends \Engine\Mvc\Model
      *
      * @var string
      */
-    public $role_inherit;
+    public $name;
 
     /**
      * Initialize method for model.
@@ -55,6 +55,7 @@ class RoleInherit extends \Engine\Mvc\Model
     public function initialize()
     {
         $this->belongsTo("role_id", "\ExtjsCms\Model\Acl\Role", "id", ['alias' => 'Role']);
+        $this->belongsTo("inherit_role_id", "\ExtjsCms\Model\Acl\RoleToInherit", "id", ['alias' => 'RoleToInherit']);
     }
 
     /**

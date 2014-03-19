@@ -1,13 +1,13 @@
-Ext.define('Cms.WindowDetail', {
+Ext.define('Cms.view.WindowDetail', {
 
     extend: 'Ext.panel.Panel',
     alias: 'widget.cmsWindowDetail',
-
+    autoScroll:true,
     border: false,
 
     initComponent: function(){
         var me = this;
-        me.display = Ext.create('Cms.WindowPost', {});
+        me.display = Ext.create('Cms.view.WindowPost', {});
         me.controllerApp = Ext.create(me.controller, {});
         me.controllerApp.init();
 
@@ -36,9 +36,10 @@ Ext.define('Cms.WindowDetail', {
      */
     createGrid: function(){
         var me = this;
+
         me.grid = Ext.create(me.controllerApp.grid, {
             region: 'center',
-            dockedItems: [me.createTopToolbar()],
+            dockedItems: [me.createTopToolbar(), me.createFilterToolbar()],
             flex: 2,
             minHeight: 200,
             minWidth: 150,
@@ -67,8 +68,7 @@ Ext.define('Cms.WindowDetail', {
                 region: 'center',
                 grid: me.grid,
                 listeners: {
-                    scope: me//,
-                    //select: me.onSelect
+                    scope: me
                 }
             });
         //}
@@ -110,12 +110,24 @@ Ext.define('Cms.WindowDetail', {
     },
 
     /**
+     * Fires when a grid filter form is submited
+     * @private
+     * @param {Event.view.*.Filter} filter
+     * @param {object} params
+     */
+    onFiltering: function(filter, params) {
+        var me = this;
+        me.grid.onFiltering(params);
+    },
+
+    /**
      * Creates top controller toolbar.
      * @private
      * @return {Ext.toolbar.Toolbar} toolbar
      */
     createTopToolbar: function(){
         var me = this;
+
         me.toolbar = Ext.create('widget.toolbar', {
             cls: 'x-docked-noborder-top',
             items: [
@@ -150,6 +162,27 @@ Ext.define('Cms.WindowDetail', {
             }]
         });
         return me.toolbar;
+    },
+
+    /**
+     * Creates top controller toolbar.
+     * @private
+     * @return {Ext.toolbar.Toolbar} toolbar
+     */
+    createFilterToolbar: function(){
+        var me = this;
+
+        me.filter = Ext.create(me.controllerApp.filter, {
+            collapsible: true,
+            collapsed: true,
+            split: true,
+            frame: true,
+            listeners: {
+                scope: me,
+                onSubmit: me.onFiltering
+            }
+        });
+        return me.filter;
     },
 
     /**

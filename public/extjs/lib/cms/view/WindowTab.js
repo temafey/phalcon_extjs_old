@@ -5,6 +5,7 @@ Ext.define('Cms.WindowTab', {
 
     initComponent: function(){
         var me = this;
+
         me.addEvents(
             /**
              * @event rowdblclick
@@ -128,7 +129,7 @@ Ext.define('Cms.WindowTab', {
         me.view.el.update('');
 
         // Update the detail view with a dummy empty record
-        me.fireEvent('select', me, {data:{}});
+        me.fireEvent('select', me, {data: {}});
     },
 
     /**

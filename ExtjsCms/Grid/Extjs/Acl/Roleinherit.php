@@ -6,24 +6,24 @@ namespace ExtjsCms\Grid\Extjs\Acl;
 
 use ExtjsCms\Grid\Base,
     Engine\Crud\Grid\Column,
-    Engine\Crud\Grid\Filter,
+    Engine\Crud\Grid\Filter\Extjs as Filter,
     Engine\Crud\Grid\Filter\Field,
     Engine\Filter\SearchFilterInterface as Criteria;
 
 /**
- * Class Privilege
+ * Class Roleinherit
  *
  * @category    Module
  * @package     Acl
  * @subpackage  Grid
  */
-class Privilege extends Base
+class Roleinherit extends Base
 {
     /**
      * Extjs grid key
      * @var string
      */
-    protected $_key = 'acl-role-inherit';
+    protected $_key = 'acl-roleinherit';
 
     /**
      * Grid title
@@ -35,7 +35,7 @@ class Privilege extends Base
      * Container model
      * @var string
      */
-    protected $_containerModel = '\ExtjsCms\Model\Acl\RoleInherit';
+    protected $_containerModel = '\ExtjsCms\Model\Acl\Roleinherit';
 
     /**
      * Container condition
@@ -54,7 +54,7 @@ class Privilege extends Base
 			'id'      => new Column\Primary('Id'),
 			'name'    => new Column\Name('Name'),
 			'role'    => new Column\JoinOne('Role', '\ExtjsCms\Model\Acl\Role'),
-            'inherit' => new Column\Text('Inherit', 'role_inherit')
+            'inherit' => new Column\JoinOne('Inherit role', '\ExtjsCms\Model\Acl\RoleToinherit'),
 		];
     }
 
@@ -75,7 +75,7 @@ class Privilege extends Base
                     ],
                 ],
                 [
-                    'path' => 'ExtjsCms\Model\Acl\role',
+                    'path' => 'ExtjsCms\Model\Acl\Role',
                     'filters' => [
                         Criteria::COLUMN_NAME => Criteria::CRITERIA_BEGINS
                     ],
@@ -83,7 +83,7 @@ class Privilege extends Base
 			]),
 			'id'   => new Field\Primary('Id'),
             'name' => new Field\Name('Name'),
-			'role' => new Field\Join('acl_role_id', 'Роли', '\ExtjsCms\Model\Acl\Role')
+			'role' => new Field\Join('acl_role_id', 'Roles', '\ExtjsCms\Model\Acl\Role')
         ]);
     }
 }

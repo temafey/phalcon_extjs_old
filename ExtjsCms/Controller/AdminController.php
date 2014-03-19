@@ -13,6 +13,100 @@ class AdminController extends Base
 {
     public function initialize()
     {
+        $this->auth->isAuth();
+    }
+
+    /**
+     * @Route("/", methods={"GET"}, name="home")
+     */
+    public function indexAction()
+    {
+        parent::initialize();
+        $this->view->pick('admin/index');
+    }
+
+    /**
+     * @Route("/auth", methods={"POST"}, name="login-auth")
+     */
+    public function authAction()
+    {
+        $params = $this->request->getPost();
+        $result = ['success' => false];
+
+        if ($this->auth->check($params)) {
+            $result['success'] = true;
+        } else {
+            $result['msg'] = $this->auth->getMessage();
+        }
+        echo json_encode($result);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
+    /**
+     * @Route("/check", methods={"POST"}, name="login-check")
+     */
+    public function checkAction()
+    {
+        $params = $this->request->getPost();
+        $result = ['success' => false];
+
+        if ($this->auth->checkRememberMe($params['token'])) {
+            if (!$this->viewer->getId()) {
+                $this->auth->loginWithRememberMe();
+            }
+            $result['success'] = true;
+        } else {
+            $result['msg'] = $this->auth->getMessage();
+        }
+        echo json_encode($result);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
+    /**
+     * @Route("/logout", methods={"GET"}, name="logout")
+     */
+    public function logoutAction()
+    {
+        $result = ['success' => false];
+
+        if ($this->auth->isAuth() && $this->auth->remove()) {
+            $result['success'] = true;
+        } else {
+            $result['msg'] = $this->auth->getMessage();
+        }
+        echo json_encode($result);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
+    /**
+     * @Route("/isauth", methods={"GET"}, name="isauth")
+     */
+    public function isauthAction()
+    {
+        $result = ['success' => false];
+
+        if ($this->auth->isAuth()) {
+            $result['success'] = true;
+        } else {
+            $result['msg'] = $this->auth->getMessage();
+        }
+        echo json_encode($result);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
+    /**
+     * @Route("/menu/denied", methods={"GET"}, name="denied")
+     */
+    public function deniedAction()
+    {
+        $result = ['success' => false, 'msg' => 'Access denied'];
+        echo json_encode($result);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }
 
     /**
@@ -20,15 +114,18 @@ class AdminController extends Base
      */
     public function optionsAction()
     {
-        $result = $this->_getMenuOptions();
+        $params = $this->request->getQuery();
+        $result = $this->_getMenuOptions($params);
         echo json_encode($result);
 
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }
 
-    protected function _getMenuOptions()
+    protected function _getMenuOptions($params)
     {
-        $grid = new \ExtjsCms\Grid\Extjs\Menu\Item(['menu' => '1', 'status' => 'active']);
+        $parent = (isset($params['node'])) ? $params['node'] : 0;
+        $grid = new \ExtjsCms\Grid\Extjs\Menu\Item(['menu' => '1', 'status' => 'active', 'parent' => $parent]);
+        $grid->setDi($this->getDI());
         $options = $grid->getMenuOptions();
 
         return $options;

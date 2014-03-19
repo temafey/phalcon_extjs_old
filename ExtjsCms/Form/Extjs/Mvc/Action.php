@@ -49,10 +49,10 @@ class Action extends Base
     {
 		$this->_fields = [
 			'id'        => new Field\Primary('Id'),
-			'modules'   => new Field\ManyToOne('Module', ['\ExtjsCms\Model\Mvc\Controller', '\ExtjsCms\Model\Mvc\Module']),
+			'module'    => new Field\ManyToOne('Module', '\ExtjsCms\Model\Mvc\Module', null),
 			'controller'=> new Field\ManyToOne('Controller', '\ExtjsCms\Model\Mvc\Controller'),
 			'name'      => new Field\Name("Action"),
-			'status'    => new Field\ArrayToSelect("Status", 'status', ['active' => 'Active', 'not_active' => 'Not active'])
+			'status'    => new Field\ArrayToSelect("Status", null, ['active' => 'Active', 'not_active' => 'Not active'])
 		];
     }
 }

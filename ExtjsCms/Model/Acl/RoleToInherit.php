@@ -5,13 +5,13 @@
 namespace ExtjsCms\Model\Acl;
 
 /**
- * Class Role
+ * Class RoleToInherit
  *
  * @category   Module
  * @package    Acl
  * @subpackage Model
  */
-class Role extends \Engine\Mvc\Model
+class RoleToInherit extends \Engine\Mvc\Model
 {
     /**
      * Default name column
@@ -54,8 +54,7 @@ class Role extends \Engine\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany("id", "\ExtjsCms\Model\Acl\Accesslist", "role_id", ['alias' => 'Accesslist']);
-        $this->hasMany("id", "\ExtjsCms\Model\Acl\Roleinherit", "role_id", ['alias' => 'Roleinherit']);
+        $this->hasMany("id", "\ExtjsCms\Model\Acl\Roleinherit", "inherit_role_id", ['alias' => 'Roleinherit']);
     }
 
     /**

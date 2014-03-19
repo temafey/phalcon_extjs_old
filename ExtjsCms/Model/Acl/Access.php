@@ -5,10 +5,10 @@
 namespace ExtjsCms\Model\Acl;
 
 /**
- * Class event.
+ * Class Access
  *
  * @category   Module
- * @package    Event
+ * @package    Acl
  * @subpackage Model
  */
 class Access extends \Engine\Mvc\Model
@@ -55,7 +55,7 @@ class Access extends \Engine\Mvc\Model
     public function initialize()
     {
         $this->belongsTo("resource_id", "\ExtjsCms\Model\Acl\Resource", "id", ['alias' => 'Resource']);
-        $this->hasMany("id", "\ExtjsCms\Model\Acl\AccessList", "access_id", ['alias' => 'AccessList']);
+        $this->hasMany("id", "\ExtjsCms\Model\Acl\Accesslist", "access_id", ['alias' => 'Accesslist']);
     }
 
     /**
