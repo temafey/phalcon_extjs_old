@@ -100,7 +100,7 @@ class InstallController extends Base
         $params2 =$this->dispatcher->getParams();
         $gridName = $this->_getGrid($module, $grid);
 
-        $grid = new $gridName($params);
+        $grid = new $gridName($params, $this->getDi(), $this->getEventsManager());
         $t = $grid->render();
 
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
@@ -116,7 +116,7 @@ class InstallController extends Base
     {
         $params = $this->request->getQuery();
         $params2 =$this->dispatcher->getParams();
-        $gridName = $this->_getGrid($module, $grid);
+        $gridName = $this->_getGrid($module, $grid, $this->getDi(), $this->getEventsManager());
 
         $grid = new $gridName($params);
         $filter = $grid->getFilter();
@@ -136,7 +136,7 @@ class InstallController extends Base
         $params = $this->request->getRawBody();
         $formName = $this->_getForm($module, $form);
 
-        $form = new $formName();
+        $form = new $formName(null, [], $this->getDi(), $this->getEventsManager());
         $form->render();
 
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
