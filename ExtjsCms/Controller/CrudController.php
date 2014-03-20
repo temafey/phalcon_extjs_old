@@ -20,7 +20,7 @@ class CrudController extends Base
         $params = $this->request->getQuery();
         $params2 =$this->dispatcher->getParams();
         $gridName = $this->_getGrid($module, $grid);
-        $grid = new $gridName($params);
+        $grid = new $gridName($params, $this->getDi(), $this->getEventsManager());
 
         echo $grid->getDataWithRenderValues();
 
@@ -35,7 +35,7 @@ class CrudController extends Base
         $params = $this->request->getRawBody();
         $formName = $this->_getForm($module, $form);
 
-        $result = forward_static_call_array([$formName, 'updateRows'], [$params, $form]);
+        $result = forward_static_call_array([$formName, 'updateRows'], [$params, $form, $this->getDi(), $this->getEventsManager()]);
 
         echo json_encode($result);
 
@@ -49,7 +49,7 @@ class CrudController extends Base
     {
         $params = $this->request->getRawBody();
         $formName = $this->_getForm($module, $form);
-        $result = forward_static_call_array([$formName, 'deleteRows'], [$params, $form]);
+        $result = forward_static_call_array([$formName, 'deleteRows'], [$params, $form, $this->getDi(), $this->getEventsManager()]);
 
         echo json_encode($result);
 
@@ -64,7 +64,7 @@ class CrudController extends Base
         $params = $this->request->getPost();
         $formName = $this->_getForm($module, $form);
 
-        $result = forward_static_call_array([$formName, 'updateRow'], [$params, $form]);
+        $result = forward_static_call_array([$formName, 'updateRow'], [$params, $this->getDi(), $this->getEventsManager()]);
         if (empty($result['error'])) {
             $result['msg'] = 'Saved';
         }

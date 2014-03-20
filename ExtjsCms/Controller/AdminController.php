@@ -22,6 +22,13 @@ class AdminController extends Base
     public function indexAction()
     {
         parent::initialize();
+        $modules = [];
+        foreach ($this->modules as $module => $status) {
+            if ($status) {
+                $modules[] = ucfirst($module);
+            }
+        }
+        $this->view->modules = $modules;
         $this->view->pick('admin/index');
     }
 

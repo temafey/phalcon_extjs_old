@@ -49,7 +49,7 @@ class Menus extends Base
     {
 		$this->_fields = [
 			'id'    => new Field\Primary('Id'),
-			'key'   => new Field\Name('Name'),
+			'name'   => new Field\Name('Name'),
 			//'item'  => new Field\ManyToMany('Items', '\ExtjsCms\Model\Menu\Item', null, null, ', ', 5, '150')
 		];
     }

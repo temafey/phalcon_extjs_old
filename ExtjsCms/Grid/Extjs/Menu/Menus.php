@@ -52,7 +52,7 @@ class Menus extends Base
     {
 		$this->_columns = [
 			'id'    => new Column\Primary('Id'),
-			'title'   => new Column\Name('Name'),
+			'name'   => new Column\Name('Name'),
 			'items' => new Column\JoinMany('Items', '\ExtjsCms\Model\Menu\Item', null, null, ', ', 5)
 		];
 		//$this->_columns['item']->setAction('menu-item', 'menu');
