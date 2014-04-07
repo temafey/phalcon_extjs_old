@@ -49,13 +49,12 @@ Ext.define('Ext.ux.crud.Grid', {
         }
     },
 
-    onFiltering: function(params) {
+    onFiltering: function(params, setParamsToFilterForm) {
         var me = this,
             store = me.getStore();
 
         store.resetBaseParams();
-        if (me.filter) {
-            console.log(params);
+        if (me.filter && setParamsToFilterForm) {
             me.filter.setParams(params);
         }
         for (var key in params) {
@@ -64,7 +63,6 @@ Ext.define('Ext.ux.crud.Grid', {
             }
             store.addBaseParamKeyValue(key, params[key]);
         }
-
         store.reload({params: {start:0}});
     },
 

@@ -41,7 +41,7 @@ Ext.define('Cms.view.WindowGrid', {
         } else {
             var params = {};
             params[me.additionalGridParam] = me.active.getId();
-            me.grid.onFiltering(params);
+            me.grid.onFiltering(params, true);
         }
     },
 
@@ -87,7 +87,7 @@ Ext.define('Cms.view.WindowGrid', {
         if (rec !== undefined) {
             var params = {};
             params[param] = rec.getId();
-            grid.onFiltering(params);
+            grid.onFiltering(params, true);
         }
 
         return grid;
@@ -102,6 +102,7 @@ Ext.define('Cms.view.WindowGrid', {
             params = [];
 
         params['additionalGridParam'] = me.additionalGridParam;
+        params['additionalGridSearch'] = me.grid.getSearchValue();
         me.fireEvent('opentab', me, me.controller, me.active, params);
     },
 
