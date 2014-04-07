@@ -24,13 +24,16 @@ Ext.define('Ext.ux.crud.Filter', {
 
         for (var key in params) {
             if (params[key] === '') {
-                continue;
+                //continue;
             }
             var val = params[key];
             if (me.isNumeric(val)) {
                 val = parseFloat(val);
             }
-            form.findField(key).setValue(val);
+            var field = form.findField(key);
+            if (field) {
+                field.setValue(val);
+            }
         }
     },
 

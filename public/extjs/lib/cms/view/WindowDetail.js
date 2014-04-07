@@ -9,8 +9,13 @@ Ext.define('Cms.view.WindowDetail', {
         var me = this;
 
         me.additionalParams = {};
-        if (me.params !== undefined && me.params['additionalGridParam'] !== undefined && me.active !== undefined) {
-            me.additionalParams[me.params['additionalGridParam']] = me.active.getId();
+        if (me.params !== undefined) {
+            if (me.params['additionalGridParam'] !== undefined && me.active !== undefined) {
+                me.additionalParams[me.params['additionalGridParam']] = me.active.getId();
+            }
+            if (me.params['additionalGridSearch'] !== undefined && me.params['additionalGridSearch'] !== null) {
+                me.additionalParams['search'] = me.params['additionalGridSearch'];
+            }
         }
         if (me.controllerApp === undefined) {
             me.controllerApp = Ext.create(me.controller, {
@@ -198,12 +203,16 @@ Ext.define('Cms.view.WindowDetail', {
 
         me.additionalParams = {};
 
-        if (params !== undefined && params['additionalGridParam'] !== undefined && active !== undefined) {
-            me.additionalParams[params['additionalGridParam']] = active.getId();
+        if (params !== undefined) {
+            if (params['additionalGridParam'] !== undefined && active !== undefined) {
+                me.additionalParams[params['additionalGridParam']] = active.getId();
+            }
+            if (params['additionalGridSearch'] !== undefined && params['additionalGridSearch'] !== null) {
+                me.additionalParams['search'] = params['additionalGridSearch'];
+            }
         }
-
         if (me.grid) {
-            me.grid.onFiltering(me.additionalParams);
+            me.grid.onFiltering(me.additionalParams, true);
         }
     },
 
