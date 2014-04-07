@@ -2,44 +2,52 @@ Ext.define('Cms.view.WindowDetail', {
 
     extend: 'Ext.panel.Panel',
     alias: 'widget.cmsWindowDetail',
-    autoScroll:true,
+    autoScroll: true,
     border: false,
 
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
-        me.display = Ext.create('Cms.view.WindowPost', {});
-        me.controllerApp = Ext.create(me.controller, {});
-        me.controllerApp.init();
+
+        me.additionalParams = {};
+        if (me.params !== undefined && me.params['additionalGridParam'] !== undefined && me.active !== undefined) {
+            me.additionalParams[me.params['additionalGridParam']] = me.active.getId();
+        }
+        if (me.controllerApp === undefined) {
+            me.controllerApp = Ext.create(me.controller, {
+                baseParams: me.additionalParams
+            });
+            me.controllerApp.init();
+        }
+        me.grid = me.createGrid(me.controllerApp);
+        me.initDisplay(me.grid.additionals);
 
         Ext.apply(me, {
             layout: 'border',
-            items: [me.createGrid(), me.createSouth(), me.createEast()]
+            items: [me.grid, me.createSouth(), me.createEast()]
         });
-        me.relayEvents(me.display, ['opentab']);
+
         me.relayEvents(me.grid, ['rowdblclick']);
         me.callParent(arguments);
     },
 
     /**
-     * Loads a grid.
-     * @param {String} controller
-     */
-    loadWindow: function(controller){
-        var me = this;
-        me.grid.loadWindow(controller);
-    },
-
-    /**
-     * Creates the grid
+     * Create the grid
      * @private
-     * @return {Event.view.*.Grid} grid
+     * @return {Ext.grid.Panel} grid
      */
-    createGrid: function(){
-        var me = this;
+    createGrid: function(controller) {
+        var me = this,
+            additionalParams = {};
 
-        me.grid = Ext.create(me.controllerApp.grid, {
+        var filter = me.createFilter(controller);
+            filter.setParams(me.additionalParams);
+
+        var grid = Ext.create(controller.grid, {
             region: 'center',
-            dockedItems: [me.createTopToolbar(), me.createFilterToolbar()],
+            buildStore: false,
+            store: controller.activeStore,
+            filter: filter,
+            dockedItems: [me.createTopToolbar(), filter],
             flex: 2,
             minHeight: 200,
             minWidth: 150,
@@ -48,41 +56,97 @@ Ext.define('Cms.view.WindowDetail', {
                 select: me.onSelect
             }
         });
-        me.grid.reconfigure(me.controllerApp.activeStore);
-        me.grid.store.autoSync = true;
-        me.grid.display = me.display;
-        me.grid.window = me;
-        //me.loadWindow(me.url);
-        return me.grid;
+
+        grid.store.autoSync = true;
+
+        return grid;
     },
 
     /**
-     * Creates the form
-     * @private
-     * @return {Event.view.*.Form} grid
+     * Fires when a grid row is selected
+     *
+     * @param {Array} additionals
      */
-    createForm: function(){
+    initDisplay: function(additionals) {
         var me = this;
-        //if (me.form !== undefined) {
-            me.form = Ext.create(me.controllerApp.form, {
-                region: 'center',
-                grid: me.grid,
-                listeners: {
-                    scope: me
-                }
-            });
-        //}
 
-        return me.form;
+        me.display = new Ext.util.MixedCollection();
+        var additionalForm = Ext.create('Cms.view.WindowForm', {
+            controller: me.getController()
+        });
+        me.relayEvents(additionalForm, ['opentab']);
+        if (additionals.length > 0) {
+            additionalForm.title = 'Form';
+        }
+        me.display.add(additionalForm);
+        for (var i = 0; i < additionals.length; i++) {
+            if (typeof additionals[i] != 'undefined') {
+                additional = me.createAdditional(additionals[i]['type'], additionals[i]['controller'], additionals[i]['param']);
+                me.relayEvents(additional, ['opentab']);
+                me.display.add(additional);
+            }
+        }
     },
 
     /**
-     * Creates the window
-     * @private
-     * @return {Event.view.*.Grid} grid
+     * Create the grid additional object
+     *
+     * @param {String} type
+     * @param {Ext.app.Controller} controller
+     * @param {String} param
+     * @return {Ext.panel.Panel} additional
      */
-    createWindow: function(title){
+    createAdditional: function(type, controller, param) {
+        var controllerApp = Ext.create(controller, {});
+        controllerApp.init();
+
+        switch (type) {
+            case 'grid':
+                var additional = Ext.create('Cms.view.WindowGrid', {
+                    controller: controllerApp,
+                    additionalGridParam: param
+                });
+                additional.title = controllerApp.title;
+                break;
+            case 'form':
+                var additional = Ext.create('Cms.view.WindowForm', {
+                    controller: controllerApp
+                });
+                additional.title = controllerApp.title;
+                break;
+        }
+
+        return additional;
+    },
+
+    /**
+     * Create the form
+     *
+     * @param {Ext.app.Controller} controller
+     * @return {Ext.form.Panel} form
+     */
+    createForm: function(controller) {
         var me = this;
+
+        var form = Ext.create(controller.form, {
+            region: 'center',
+            listeners: {
+                scope: me
+            }
+        });
+
+        return form;
+    },
+
+    /**
+     * Create the window
+     *
+     * @param {String} title
+     * @return {Ext.window.Window} win
+     */
+    createWindow: function(title) {
+        var me = this;
+
         me.win = Ext.create('widget.window', {
             title: title,
             closable: true,
@@ -100,19 +164,22 @@ Ext.define('Cms.view.WindowDetail', {
 
     /**
      * Fires when a grid row is selected
-     * @private
-     * @param {Event.view.*.Grid} grid
+     *
+     * @param {Ext.grid.Panel} grid
      * @param {Ext.data.Model} rec
      */
     onSelect: function(grid, rec) {
         var me = this;
-        me.display.setActive(me, rec);
+
+        me.display.each(function (item, index, len) {
+            item.setActive(rec);
+        });
     },
 
     /**
      * Fires when a grid filter form is submited
-     * @private
-     * @param {Event.view.*.Filter} filter
+     *
+     * @param {Ext.form.Panel} filter
      * @param {object} params
      */
     onFiltering: function(filter, params) {
@@ -121,11 +188,31 @@ Ext.define('Cms.view.WindowDetail', {
     },
 
     /**
+     * Apply additional params
+     *
+     * @param {Ext.data.Model} active
+     * @param {object} params
+     */
+    applyAdditionalParams: function(active, params) {
+        var me = this;
+
+        me.additionalParams = {};
+
+        if (params !== undefined && params['additionalGridParam'] !== undefined && active !== undefined) {
+            me.additionalParams[params['additionalGridParam']] = active.getId();
+        }
+
+        if (me.grid) {
+            me.grid.onFiltering(me.additionalParams);
+        }
+    },
+
+    /**
      * Creates top controller toolbar.
      * @private
      * @return {Ext.toolbar.Toolbar} toolbar
      */
-    createTopToolbar: function(){
+    createTopToolbar: function() {
         var me = this;
 
         me.toolbar = Ext.create('widget.toolbar', {
@@ -144,7 +231,7 @@ Ext.define('Cms.view.WindowDetail', {
                     prependText: 'Preview: ',
                     showText: true,
                     scope: me,
-                    changeHandler: me.readingPaneChange,
+                    changeHandler: me.readingPanelChange,
                     menu: {
                         id: 'reading-menu',
                         items: [{
@@ -161,18 +248,19 @@ Ext.define('Cms.view.WindowDetail', {
                 }
             }]
         });
+
         return me.toolbar;
     },
 
     /**
-     * Creates top controller toolbar.
+     * Create top controller toolbar.
      * @private
      * @return {Ext.toolbar.Toolbar} toolbar
      */
-    createFilterToolbar: function(){
+    createFilter: function(controller) {
         var me = this;
 
-        me.filter = Ext.create(me.controllerApp.filter, {
+        var filter = Ext.create(controller.filter, {
             collapsible: true,
             collapsed: true,
             split: true,
@@ -182,14 +270,15 @@ Ext.define('Cms.view.WindowDetail', {
                 onSubmit: me.onFiltering
             }
         });
-        return me.filter;
+
+        return filter;
     },
 
     /**
      * Reacts to the open all being clicked
      * @private
      */
-    onOpenAllClick: function(){
+    onOpenAllClick: function() {
         var me = this;
         me.fireEvent('openall', this);
     },
@@ -198,7 +287,7 @@ Ext.define('Cms.view.WindowDetail', {
      * Gets a list of titles/urls for each grid item.
      * @return {Array} The grid details
      */
-    getWindowData: function(){
+    getWindowData: function() {
         var me = this;
         return me.grid.store.getRange();
     },
@@ -218,18 +307,24 @@ Ext.define('Cms.view.WindowDetail', {
      * @private
      * @param {Ext.menu.CheckItem} activeItem The checked item
      */
-    readingPaneChange: function(cycle, activeItem){
+    readingPanelChange: function(cycle, activeItem) {
         var me = this;
+
         switch (activeItem.text) {
             case 'Bottom':
                 me.east.hide();
                 me.south.show();
-                me.south.add(me.display);
+                me.south.isSetActive = false;
+                me.display.each(function(item, index, len) {
+                    this.add(item);
+                }, me.south);
                 break;
             case 'Right':
                 me.south.hide();
                 me.east.show();
-                me.east.add(me.display);
+                me.display.each(function(item, index, len) {
+                    this.add(item);
+                }, me.east);
                 break;
             default:
                 me.south.hide();
@@ -243,17 +338,33 @@ Ext.define('Cms.view.WindowDetail', {
      * @private
      * @return {Ext.panel.Panel} south
      */
-    createSouth: function(){
-        var me = this;
-        me.south =  Ext.create('Ext.panel.Panel', {
+    createSouth: function() {
+        var me = this,
+            type,
+            options;
+
+        options = {
             layout: 'fit',
             region: 'south',
             border: false,
             split: true,
             flex: 2,
-            minHeight: 150,
-            items: me.display
-        });
+            minHeight: 150
+        };
+
+        if (me.display.getCount() > 1) {
+           type = 'Ext.tab.Panel';
+           options.activeTab = 0;
+        } else {
+            type = 'Ext.panel.Panel';
+        }
+        me.south = Ext.create(type, options);
+        me.south.isSetActive = false;
+
+        me.display.each(function(item, index, len) {
+            this.add(item);
+        }, me.south);
+
         return me.south;
     },
 
@@ -262,9 +373,12 @@ Ext.define('Cms.view.WindowDetail', {
      * @private
      * @return {Ext.panel.Panel} east
      */
-    createEast: function(){
-        var me = this;
-        me.east =  Ext.create('Ext.panel.Panel', {
+    createEast: function() {
+        var me = this,
+            type,
+            options;
+
+        options = {
             layout: 'fit',
             region: 'east',
             flex: 1,
@@ -272,7 +386,19 @@ Ext.define('Cms.view.WindowDetail', {
             hidden: true,
             minWidth: 150,
             border: false
-        });
+        };
+
+        if (me.display.getCount() > 1) {
+            type = 'Ext.tab.Panel';
+            options.activeTab = 0;
+        } else {
+            type = 'Ext.panel.Panel';
+        }
+        me.east = Ext.create(type, options);
         return me.east;
+    },
+
+    getController: function() {
+        return this.controllerApp;
     }
 });

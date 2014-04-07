@@ -14,7 +14,7 @@ Ext.define('Cms.view.Viewport', {
         //me.items.items[1].add(me.createFooter());
     },
 
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
 
         Ext.define('MenuPanelTreeModel', {
@@ -70,7 +70,7 @@ Ext.define('Cms.view.Viewport', {
      * @private
      * @return {Cms.view.MenuPanel} MenuPanel
      */
-    createMenuPanel: function(){
+    createMenuPanel: function() {
         var me = this;
         me.MenuPanel = Ext.create('Cms.view.MenuPanel', {
             region: 'west',
@@ -92,7 +92,7 @@ Ext.define('Cms.view.Viewport', {
      * @private
      * @return {Cms.view.WindowInfo} WindowInfo
      */
-    createWindowInfo: function(){
+    createWindowInfo: function() {
         var me = this;
         me.WindowInfo = Ext.create('Cms.view.WindowInfo', {
             region: 'center',
@@ -105,12 +105,12 @@ Ext.define('Cms.view.Viewport', {
      * Reacts to a Window being selected
      * @private
      */
-    onWindowSelect: function(window, title, controller){
+    onWindowSelect: function(window, title, controller) {
         var me = this;
         me.WindowInfo.openTab(title, controller);
     },
 
-    isInitialized: function () {
+    isInitialized: function() {
         return this.initialized;
     }
 });

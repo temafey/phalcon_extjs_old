@@ -59,7 +59,7 @@ class Item extends Base
             'alias'      => new Field\Text('Alias'),
             'position'   => new Field\Text("Position"),
             'status'     => new Field\ArrayToSelect("Status", 'status', ['active' => 'Active', 'not_active' => 'Not active']),
-            'description'=> new Field\TextArea('Desciption', 'description')
+            'description'=> new Field\HtmlEditor('Desciption', 'description')
 		];
     }
 }

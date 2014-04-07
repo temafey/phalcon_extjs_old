@@ -95,7 +95,7 @@ class CrudController extends Base
     {
         $formName = $this->_getForm($module, $form);
         $key = $form;
-        $form = new $formName;
+        $form = new $formName(null, [], $this->getDi(), $this->getEventsManager());
         $field = $form->getFieldByKey($field);
         if (!$field instanceof \Engine\Crud\Form\Field\ArrayToSelect) {
             throw new \Engine\Exception("Field not instance of 'ArrayToSelect' field type");

@@ -123,8 +123,10 @@ class Item extends Base
             $option['id'] = $row['id'];
             $option['text'] = $row['title'];
             if ($row['module'] && $row['controller']) {
-                if (!$acl->isAllowed($viewer->getRole(), $row['module'], $row['controller'], 'read')) {
-                    continue;
+                if (!$acl->isAllowed($viewer->getRole(), \Engine\Acl\Dispatcher::ACL_ADMIN_MODULE, \Engine\Acl\Dispatcher::ACL_ADMIN_CONTROLLER, '*')) {
+                    if (!$acl->isAllowed($viewer->getRole(), $row['module'], $row['controller'], 'read')) {
+                        continue;
+                    }
                 }
                 $option['controller'] = \Phalcon\Text::camelize($row['module']).".controller.".\Phalcon\Text::camelize($row['controller']);
                 $option['moduleName'] = \Phalcon\Text::camelize($row['module']);

@@ -128,7 +128,13 @@ class AdminController extends Base
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }
 
-    protected function _getMenuOptions($params)
+    /**
+     * Return admin panel menu options
+     *
+     * @param array $params
+     * @return array
+     */
+    protected function _getMenuOptions(array $params)
     {
         $parent = (isset($params['node'])) ? $params['node'] : 0;
         $grid = new \ExtjsCms\Grid\Extjs\Menu\Item(['menu' => '1', 'status' => 'active', 'parent' => $parent], $this->getDi(), $this->getEventsManager());

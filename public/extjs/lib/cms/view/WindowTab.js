@@ -3,7 +3,7 @@ Ext.define('Cms.WindowTab', {
 
     alias: 'widget.cmsWindowTab',
 
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
 
         me.addEvents(
@@ -101,7 +101,7 @@ Ext.define('Cms.WindowTab', {
      * @param {Ext.model.Selection} model The selection model
      * @param {Array} selections An array of selections
      */
-    onSelect: function(model, selections){
+    onSelect: function(model, selections) {
         var me = this;
         var selected = selections[0];
         if (selected) {
@@ -136,7 +136,7 @@ Ext.define('Cms.WindowTab', {
      * Instructs the grid to load a new window
      * @param {String} url The url to load
      */
-    loadWindow: function(url){
+    loadWindow: function(url) {
         var me = this,
             store = me.store;
         store.getProxy().extraParams.window = url;
@@ -147,7 +147,7 @@ Ext.define('Cms.WindowTab', {
      * Title renderer
      * @private
      */
-    formatTitle: function(value, p, record){
+    formatTitle: function(value, p, record) {
         return Ext.String.format('<div class="topic"><b>{0}</b><span class="author">{1}</span></div>', value, record.get('author') || "Unknown");
     },
 
@@ -155,7 +155,7 @@ Ext.define('Cms.WindowTab', {
      * Date renderer
      * @private
      */
-    formatDate: function(date){
+    formatDate: function(date) {
         if (!date) {
             return '';
         }

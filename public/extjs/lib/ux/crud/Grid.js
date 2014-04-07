@@ -1,5 +1,15 @@
 Ext.define('Ext.ux.crud.Grid', {
     extend: 'Ext.grid.Panel',
+    baseParams: null,
+    filter: false,
+
+    createStore : function(store) {
+        var me = this;
+
+        return Ext.create(store, {
+            baseParams: me.baseParams
+        });
+    },
 
     afterRender: function() {
         var me = this;
@@ -17,8 +27,8 @@ Ext.define('Ext.ux.crud.Grid', {
 
         var selections = me.getSelectionModel().getSelection();
         if (selections.length > 0) {
-            Ext.MessageBox.confirm('Information', 'Do you really want to remove the selected items?' , function (btn) {
-                if(btn == 'yes') {
+            Ext.MessageBox.confirm('Information', 'Do you really want to remove the selected items?', function (btn) {
+                if (btn == 'yes') {
                     for (var i = 0, len = selections.length; i < len; i++) {
                         me.getStore().remove(selections[i]);
                     }
@@ -41,9 +51,13 @@ Ext.define('Ext.ux.crud.Grid', {
 
     onFiltering: function(params) {
         var me = this,
-            store = this.getStore();
+            store = me.getStore();
 
         store.resetBaseParams();
+        if (me.filter) {
+            console.log(params);
+            me.filter.setParams(params);
+        }
         for (var key in params) {
             if (params[key] === '') {
                 continue;
@@ -113,6 +127,85 @@ Ext.define('Ext.ux.crud.Grid', {
             }
         }
         return false;
+    },
+
+    getStoreRowById: function(id) {
+        return this.getStore().getById(id);
+    },
+
+    getColumnFieldValue: function(name, value) {
+        var me = this;
+
+        var column = me.getColumnByName(name);
+        if (column.field !== undefined && column.field.xtype === 'combobox') {
+            value = column.field.store.findRecord('name', value);
+        }
+
+        return value;
+    },
+
+    getDockedToolbars: function() {
+        var me = this,
+            dockedItems;
+
+        dockedItems = [
+            me.returnTopToolbar(),
+            me.returnBottomToolbar()
+        ];
+
+        return dockedItems;
+    },
+
+    getTopToolbar: function() {
+        var me = this,
+            toolbar;
+
+        toolbar = Ext.create('widget.toolbar', {
+            dock: 'top',
+            items: me.getTopToolbarItems()
+        });
+
+        return toolbar;
+    },
+
+    getBottomToolbar: function() {
+        var me = this,
+            toolbar;
+
+        toolbar = Ext.create('widget.toolbar', {
+            dock: 'bottom',
+            items: me.getBottomToolbarItems()
+        });
+
+        return toolbar;
+    },
+
+    getTopToolbarItems: function() {
+        var me = this,
+            items = [];
+
+        return items;
+    },
+
+    getBottomToolbarItems: function() {
+        var me = this,
+            items = [];
+
+        return items;
+    },
+
+    getPagingToolbar: function() {
+        var me = this,
+            paging;
+
+        paging = Ext.create('widget.pagingtoolbar', {
+            store: me.getStore(),
+            displayInfo: true,
+            displayMsg: 'Displaying topics {0} - {1} of {2}',
+            emptyMsg: 'No topics to display'
+        });
+
+        return paging;
     }
 
 });

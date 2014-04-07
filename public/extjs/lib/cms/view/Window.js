@@ -16,7 +16,7 @@ Ext.define('Cms.view.Window', {
         ['http://rss.news.yahoo.com/rss/software', 'Yahoo Software News']
     ],
 
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
         me.addEvents(
             /**
@@ -41,7 +41,7 @@ Ext.define('Cms.view.Window', {
                 msgTarget: 'under',
                 xtype: 'combo',
                 store: this.defaultFeeds,
-                getInnerTpl: function(){
+                getInnerTpl: function() {
                     return '<div class="feed-picker-url">{field1}</div><div class="feed-picker-title">{field2}</div>';
                 }
             }]
@@ -67,7 +67,7 @@ Ext.define('Cms.view.Window', {
         me.callParent(arguments);
     },
 
-    doHide: function(){
+    doHide: function() {
         this.hide();
     },
 
@@ -126,7 +126,7 @@ Ext.define('Cms.view.Window', {
      * React to the feed validation failing
      * @private
      */
-    markInvalid: function(){
+    markInvalid: function() {
         this.down('button[text=Add]').enable();
         this.form.setLoading(false);
         this.form.getComponent('feed').markInvalid('The URL specified is not a valid RSS2 feed.');

@@ -1,18 +1,19 @@
-Ext.define('Cms.view.WindowPost', {
+Ext.define('Cms.view.WindowForm', {
 
     extend: 'Ext.panel.Panel',
-    alias: 'widget.cmsWindowPost',
+    alias: 'widget.cmsWindowForm',
     cls: 'preview',
     autoScroll: true,
     border: true,
 
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
+
         Ext.apply(me, {
             dockedItems: [me.createToolbar()]
         });
         if(me.inTab) {
-            if (me.form !== undefined){
+            if (me.form !== undefined) {
                 me.items = [me.form];
             }
         } else {
@@ -23,10 +24,9 @@ Ext.define('Cms.view.WindowPost', {
 
     /**
      * Set the active form
-     * @param {Ext.panel.Panel} window
      * @param {Ext.data.Model} rec
      */
-    setActive: function(window, rec) {
+    setActive: function(rec) {
         var me = this,
             gotoButton = me.down('button[text=Go to post]'),
             openTab    = me.down('button[text=View in new tab]'),
@@ -37,10 +37,8 @@ Ext.define('Cms.view.WindowPost', {
         gotoButton.disable();
         openTab.enable();
 
-        me.window = window;
-
         if (me.form === undefined) {
-            me.form = me.window.createForm();
+            me.form = Ext.create(me.controller.form, {title: undefined});
             me.add(me.form);
         }
 
@@ -54,7 +52,6 @@ Ext.define('Cms.view.WindowPost', {
         }
 
         title = me.getFormTitle(me.form);
-        me.form.title = title;
 
         var win = me.getWindowByTitle(title);
         if (win && win.isVisible()) {
@@ -69,7 +66,7 @@ Ext.define('Cms.view.WindowPost', {
      * @private
      * @return {Ext.toolbar.Toolbar} toolbar
      */
-    createToolbar: function(){
+    createToolbar: function() {
         var me = this,
             items = [],
             config = {},
@@ -126,37 +123,37 @@ Ext.define('Cms.view.WindowPost', {
      * Navigate to the active post in a new window
      * @private
      */
-    goToPost: function(){
+    goToPost: function() {
         var me = this;
-        window.open(this.form.getLink());
+        window.open(me.form.getLink());
     },
 
     /**
      * Open the post in a new tab
      * @private
      */
-    openTab: function(){
+    openTab: function() {
         var me = this,
-            form = me.window.createForm();
+            form = Ext.create(me.controller.form, {});
 
-        if (me.active !== undefined){
+        if (me.active !== undefined) {
             form.setActiveRecord(me.active);
         }
-        this.fireEvent('opentab', me, form, me.active);
+        me.fireEvent('opentab', me, form, me.active);
     },
 
     /**
      * Open the form in a new window
      * @private
      */
-    openWindow: function(){
+    openWindow: function() {
         var me = this,
-            windowsContainer = (this.inTab) ? this.parent : this,
-            window = (this.inTab) ? this.parent.window : this.window,
+            windowsContainer = (me.inTab) ? me.parent : me,
+            window = (this.inTab) ? me.parent.window : me.window,
             button = me.down('button[text=View in new window]'),
-            form = window.createForm();
+            form =  Ext.create(me.controller.form, {});
 
-        if (me.active !== undefined){
+        if (me.active !== undefined) {
             form.setActiveRecord(me.active);
         }
 
@@ -178,7 +175,7 @@ Ext.define('Cms.view.WindowPost', {
                 win.buttonPost = me.down('button[text=View in new window]');
             }
 
-            win.on("hide", function(){
+            win.on("hide", function() {
                 win.buttonPost.enable();
                 if(win.buttonTab !== undefined) {
                     win.buttonTab.enable();
@@ -211,16 +208,19 @@ Ext.define('Cms.view.WindowPost', {
 
     getWindowByTitle: function(title) {
         var me = this;
+
         if (me.formWindows === undefined) {
             return null;
         }
         var index = me.formWindows.findIndex('title', title);
+
         return (index < 0) ? null : me.formWindows.getAt(index);
     },
 
     getFormByTitle: function(title) {
         var me = this;
         var index = me.items.findIndex('title', title);
+
         return (index < 0) ? null : me.items.getAt(index);
     },
 
@@ -232,6 +232,7 @@ Ext.define('Cms.view.WindowPost', {
         } else {
             title = title+' (new)';
         }
+
         return title;
     }
 });

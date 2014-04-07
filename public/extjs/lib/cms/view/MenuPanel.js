@@ -60,7 +60,7 @@ Ext.define('Cms.view.MenuPanel', {
         me.callParent(arguments);
     },
 
-    getState: function () {
+    getState: function() {
         var nodes = [];
         this.getRootNode().eachChild(function (child) {
         //function to store state of tree recursively
@@ -74,6 +74,7 @@ Ext.define('Cms.view.MenuPanel', {
             };
             storeTreeState(child, nodes);
         });
+
         return {
             expandedNodes:nodes
         }
@@ -81,6 +82,7 @@ Ext.define('Cms.view.MenuPanel', {
 
     applyState: function (state) {
         var that = this;
+
         //read state in from cookie, not from what is passed in
         var cookie = Ext.state.Manager.get('tree-panel-menu-state-id');
         var nodes = cookie.expandedNodes;
@@ -177,7 +179,7 @@ Ext.define('Cms.view.MenuPanel', {
                 iconCls: 'module-load'
             }],
             listeners: {
-                hide: function(c){
+                hide: function(c) {
                     c.activeController = null;
                 }
             }
@@ -233,9 +235,9 @@ Ext.define('Cms.view.MenuPanel', {
      * Listens for the context menu event on the view
      * @private
      */
-    onContextMenu: function(view, index, el, event){
+    onContextMenu: function(view, index, el, event) {
         var menu = this.menu;
-alert('1');
+
         event.stopEvent();
         menu.activeController = view.store.getAt(index);
         menu.showAt(event.getXY());
@@ -309,7 +311,7 @@ alert('1');
      * @param {Number} end The end opacity
      * @param {Object} listeners (optional) Any listeners
      */
-    animateNode: function(el, start, end, listeners){
+    animateNode: function(el, start, end, listeners) {
         Ext.create('Ext.fx.Anim', {
             target: Ext.get(el),
             duration: 500,
@@ -331,7 +333,7 @@ alert('1');
         me.menu.destroy();
     },
 
-    onExpandAllClick: function(){
+    onExpandAllClick: function() {
         var me = this,
             toolbar = me.down('toolbar');
 
@@ -344,7 +346,7 @@ alert('1');
         });
     },
 
-    onCollapseAllClick: function(){
+    onCollapseAllClick: function() {
         var toolbar = this.down('toolbar');
 
         toolbar.disable();

@@ -8,6 +8,7 @@ Ext.define('Cms.view.WindowInfo', {
 
     initComponent: function() {
         var me = this;
+
         me.tabBar = {
             border: true
         };
@@ -27,6 +28,7 @@ Ext.define('Cms.view.WindowInfo', {
      */
     addWindow: function(title, controller) {
         var me = this;
+
         active = me.add({
             xtype: 'cmsWindowDetail',
             title: title,
@@ -51,7 +53,7 @@ Ext.define('Cms.view.WindowInfo', {
             me.addWindow(title, controller);
         } else {
             if (active.controller != controller) {
-                active = me.items.findBy(function(i){
+                active = me.items.findBy(function(i) {
                     return i.controller === controller;
                 });
                 if (!active) {
@@ -63,14 +65,24 @@ Ext.define('Cms.view.WindowInfo', {
         }
     },
 
+    onTabOpen: function(post, object, active, params) {
+        var me = this;
+
+        if (object instanceof Ext.form.Panel) {
+            me.onFormTabOpen(post, object, active, params);
+        } else if (object instanceof Ext.app.Controller) {
+            me.onGridTabOpen(post, object, active, params);
+        }
+    },
+
     /**
      * Listens for a new tab request
      * @private
-     * @param {Cms.WindowPost} post
+     * @param {Cms.WindowForm} post
      * @param {Ext.form.Panel} form
      * @param {Ext.data.Model} active
      */
-    onTabOpen: function(post, form, active) {
+    onFormTabOpen: function(post, form, active, params) {
         var me = this,
             items = [],
             item,
@@ -80,14 +92,16 @@ Ext.define('Cms.view.WindowInfo', {
         if (Ext.isArray(form)) {
             Ext.each(form, function(form) {
                 title = form.title;
+                form.title = undefined;
                 if (!me.getTabByTitle(title)) {
                     items.push({
                         inTab: true,
-                        xtype: 'cmsWindowPost',
+                        xtype: 'cmsWindowForm',
                         title: title,
                         closable: true,
                         parent: post,
-                        form: form
+                        form: form,
+                        params: params
                     });
                 }
             }, me);
@@ -95,6 +109,7 @@ Ext.define('Cms.view.WindowInfo', {
         } else {
             id = form.getPrimaryField().getValue();
             title = form.title;
+            form.title = undefined;
             if (id !== '') {
                 title = title+" ("+id+")";
             } else {
@@ -104,13 +119,70 @@ Ext.define('Cms.view.WindowInfo', {
             if (!item) {
                 item = me.add({
                     inTab: true,
-                    xtype: 'cmsWindowPost',
+                    xtype: 'cmsWindowForm',
                     title: title,
                     closable: true,
                     parent: post,
                     form: form,
-                    active: active
+                    active: active,
+                    params: params
                 });
+            }
+            me.setActiveTab(item);
+        }
+    },
+
+    /**
+     * Listens for a new tab request
+     * @private
+     * @param {Cms.WindowForm} post
+     * @param {Ext.app.Controller} controller
+     * @param {Ext.data.Model} active
+     * @param {object} params
+     */
+    onGridTabOpen: function(post, controller, active, params) {
+        var me = this,
+            items = [],
+            item,
+            title,
+            id;
+
+        if (Ext.isArray(controller)) {
+            Ext.each(controller, function(controller, params) {
+                var title = controller.title;
+                var controllerName = controller.$className;
+                if (!me.getTabByTitle(title)) {
+                    items.push({
+                        inTab: true,
+                        xtype: 'cmsWindowDetail',
+                        title: title,
+                        closable: true,
+                        parent: post,
+                        controller: controllerName,
+                        active: active,
+                        params: params
+                    });
+                }
+            }, me);
+            me.add(items);
+        } else {
+            id = active.getId();
+            title = controller.title;
+            item = me.getTabByTitle(title);
+            var controllerName = controller.$className;
+            if (!item) {
+                item = me.add({
+                    inTab: true,
+                    xtype: 'cmsWindowDetail',
+                    title: title,
+                    closable: true,
+                    parent: post,
+                    controller: controllerName,
+                    active: active,
+                    params: params
+                });
+            } else {
+                item.applyAdditionalParams(active, params);
             }
             me.setActiveTab(item);
         }
@@ -133,7 +205,7 @@ Ext.define('Cms.view.WindowInfo', {
      * @param {Cms.WindowDetail} detail The detail
      * @param {Ext.data.Model} model The model
      */
-    onRowDblClick: function(info, rec){
+    onRowDblClick: function(info, rec) {
         var me = this;
         me.onTabOpen(null, rec);
     },

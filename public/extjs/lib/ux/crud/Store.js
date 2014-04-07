@@ -8,7 +8,7 @@ Ext.define('Ext.ux.crud.Store', {
      * @param string key
      * @param string key
      */
-    addBaseParamKeyValue: function(key, value){
+    addBaseParamKeyValue: function(key, value) {
         var obj = {};
         obj[key] = value;
         Ext.apply(this.baseParams, obj);
@@ -18,7 +18,7 @@ Ext.define('Ext.ux.crud.Store', {
      * add base parameter to store.baseParams
      * @param {Object} key/value object: {key: value}
      */
-    addBaseParam: function(obj){
+    addBaseParam: function(obj) {
         Ext.apply(this.baseParams, obj);
     },
 
@@ -26,8 +26,9 @@ Ext.define('Ext.ux.crud.Store', {
      * add several base parameters to store.baseParams
      * @param {Array}: array of key/value object: [{key1: value1, key2: value2,...}]
      */
-    addBaseParams: function(objects){
+    addBaseParams: function(objects) {
         var me = this;
+
         if (Ext.isArray(objects)){
             Ext.each(objects, function(obj){
                 me.addBaseParam(obj);
@@ -40,7 +41,7 @@ Ext.define('Ext.ux.crud.Store', {
     /**
      * reset base parameters
      */
-    resetBaseParams: function(){
+    resetBaseParams: function() {
         this.baseParams = {};
     },
 
@@ -50,6 +51,7 @@ Ext.define('Ext.ux.crud.Store', {
      */
     constructor: function(config) {
         var me = this;
+
         // manage base params
         me.baseParams = me.baseParams || {};
         // call parent
@@ -60,8 +62,9 @@ Ext.define('Ext.ux.crud.Store', {
      * override load method to add base params to request params
      * @param {Object} options
      */
-    load: function(options){
+    load: function(options) {
         var me = this;
+
         options = options || {};
         options.params = options.params || {};
         Ext.applyIf(options.params, me.baseParams);
