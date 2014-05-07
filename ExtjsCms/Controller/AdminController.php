@@ -136,7 +136,7 @@ class AdminController extends Base
      */
     protected function _getMenuOptions(array $params)
     {
-        $parent = (isset($params['node'])) ? $params['node'] : 0;
+        $parent = (isset($params['node']) && $params['node'] !== 'root') ? $params['node'] : 0;
         $grid = new \ExtjsCms\Grid\Extjs\Menu\Item(['menu' => '1', 'status' => 'active', 'parent' => $parent], $this->getDi(), $this->getEventsManager());
         $options = $grid->getMenuOptions();
 

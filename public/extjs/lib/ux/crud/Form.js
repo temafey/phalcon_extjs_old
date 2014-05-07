@@ -28,6 +28,7 @@ Ext.define('Ext.ux.crud.Form', {
                 url: me.url,
                 parentForm: me,
                 success: function(form, action) {
+                    console.log(this.parentForm.grid);
                     if (this.parentForm.grid !== undefined) {
                         this.parentForm.grid.onReload();
                     }

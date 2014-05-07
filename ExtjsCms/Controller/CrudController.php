@@ -109,5 +109,27 @@ class CrudController extends Base
         $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
     }
 
+    /**
+     * @Route("/{crudModule:[a-z,-]+}/{crudGrid:[a-z,-]+}/{filterField:[a-z,-,_]+}/filter-options", methods={"GET"}, name="grid-options-json")
+     */
+    public function filterOptionsAction($module, $grid, $field)
+    {
+        $gridName = $this->_getGrid($module, $grid);
+        $key = $grid;
+        $grid = new $gridName([], $this->getDi(), $this->getEventsManager());
+        $form = $grid->getFilter();
+        $field = $form->getFieldByKey($field);
+        if (!$field instanceof \Engine\Crud\Grid\Filter\Field\ArrayToSelect) {
+            throw new \Engine\Exception("Field not instance of 'ArrayToSelect' field type");
+        }
+
+        $result = $field->getOptions();
+        $result = \Engine\Tools\Arrays::assocToArray($result, 'id', 'name');
+
+        echo json_encode([$key => $result]);
+
+        $this->view->setRenderLevel(View::LEVEL_NO_RENDER);
+    }
+
 }
 

@@ -118,7 +118,7 @@ class InstallController extends Base
         $params2 =$this->dispatcher->getParams();
         $gridName = $this->_getGrid($module, $grid, $this->getDi(), $this->getEventsManager());
 
-        $grid = new $gridName($params);
+        $grid = new $gridName($params, $this->getDi(), $this->getEventsManager());
         $filter = $grid->getFilter();
         $t = $filter->render();
 

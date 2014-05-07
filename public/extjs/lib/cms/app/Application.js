@@ -1,6 +1,6 @@
 Ext.define('Cms.app.Application', {
     extend:'Ext.ux.app.Application',
-    appFolder:'extjs/lib/cms',
+    appFolder:'/extjs/lib/cms',
     name: 'Cms',
     controllers:[
         'Login',
