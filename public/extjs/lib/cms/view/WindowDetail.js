@@ -2,7 +2,7 @@ Ext.define('Cms.view.WindowDetail', {
 
     extend: 'Ext.panel.Panel',
     alias: 'widget.cmsWindowDetail',
-    autoScroll: true,
+    //autoScroll: true,
     border: false,
 
     initComponent: function() {
@@ -28,6 +28,7 @@ Ext.define('Cms.view.WindowDetail', {
 
         Ext.apply(me, {
             layout: 'border',
+            //items: [me.createNorth(), me.createSouth(), me.createEast()]
             items: [me.grid, me.createSouth(), me.createEast()]
         });
 
@@ -48,9 +49,9 @@ Ext.define('Cms.view.WindowDetail', {
             filter.setParams(me.additionalParams);
 
         var grid = Ext.create(controller.grid, {
-            region: 'center',
             buildStore: false,
             store: controller.activeStore,
+            region: 'center',
             filter: filter,
             dockedItems: [me.createTopToolbar(), filter],
             flex: 2,
@@ -77,7 +78,8 @@ Ext.define('Cms.view.WindowDetail', {
 
         me.display = new Ext.util.MixedCollection();
         var additionalForm = Ext.create('Cms.view.WindowForm', {
-            controller: me.getController()
+            controller: me.getController(),
+            grid: me.grid
         });
         me.relayEvents(additionalForm, ['opentab']);
         if (additionals.length > 0) {
@@ -343,6 +345,32 @@ Ext.define('Cms.view.WindowDetail', {
     },
 
     /**
+     * Create the north region container
+     * @private
+     * @return {Ext.panel.Panel} south
+     */
+    createNorth: function() {
+        var me = this,
+            type,
+            options;
+
+        options = {
+            layout: 'fit',
+            region: 'north',
+            border: false,
+            split: true,
+            flex: 2,
+            minHeight: 300,
+            autoScroll: true
+        };
+        type = 'Ext.panel.Panel';
+        me.north = Ext.create(type, options);
+        me.north.add(me.grid);
+
+        return me.north;
+    },
+
+    /**
      * Create the south region container
      * @private
      * @return {Ext.panel.Panel} south
@@ -358,7 +386,8 @@ Ext.define('Cms.view.WindowDetail', {
             border: false,
             split: true,
             flex: 2,
-            minHeight: 150
+            minHeight: 300,
+            minWidth: 300
         };
 
         if (me.display.getCount() > 1) {
@@ -393,7 +422,7 @@ Ext.define('Cms.view.WindowDetail', {
             flex: 1,
             split: true,
             hidden: true,
-            minWidth: 150,
+            minWidth: 300,
             border: false
         };
 

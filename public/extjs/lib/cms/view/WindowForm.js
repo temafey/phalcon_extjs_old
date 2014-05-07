@@ -38,7 +38,10 @@ Ext.define('Cms.view.WindowForm', {
         openTab.enable();
 
         if (me.form === undefined) {
-            me.form = Ext.create(me.controller.form, {title: undefined});
+            me.form = Ext.create(me.controller.form, {
+                title: undefined,
+                grid: me.grid
+            });
             me.add(me.form);
         }
 
@@ -149,7 +152,7 @@ Ext.define('Cms.view.WindowForm', {
     openWindow: function() {
         var me = this,
             windowsContainer = (me.inTab) ? me.parent : me,
-            window = (this.inTab) ? me.parent.window : me.window,
+            window = (me.inTab) ? me.parent.window : me.window,
             button = me.down('button[text=View in new window]'),
             form =  Ext.create(me.controller.form, {});
 
@@ -186,7 +189,6 @@ Ext.define('Cms.view.WindowForm', {
                 win.buttonTab = me.down('button[text=View in new window]');
             }
         }
-
 
         if (win.isVisible()) {
             win.hide(win, function() {

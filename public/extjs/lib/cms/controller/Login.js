@@ -34,24 +34,29 @@ Ext.define('Cms.controller.Login', {
     ],
 
     index: function () {
+        var me = this;
+
         console.log('Index function');
         var loginWin = Ext.create('Cms.view.Login');
 
-        this.login();
+        //@todo this hould ofcourse be better implemented with at least a check with the webservices if somebody is realy logged in
+        //but for now just check the cookies
+        if (me.empty(Ext.util.Cookies.get('username')) == false) {
+            if (me.empty(Ext.util.Cookies.get('token')) == false) {
+                me.checkToken(Ext.util.Cookies.get('token'));
+                return;
+            } else {
+                me.checkIsAuth();
+                return;
+            }
+        }
+        me.login();
     },
 
     login: function () {
         var me = this;
         console.log('Login button');
 
-        //@todo this hould ofcourse be better implemented with at least a check with the webservices if somebody is realy logged in
-        //but for now just check the cookies
-        if (me.empty(Ext.util.Cookies.get('username')) == false &&
-            me.empty(Ext.util.Cookies.get('token')) == false
-            ) {
-            me.checkToken(Ext.util.Cookies.get('token'));
-            return;
-        }
         var form = Ext.getCmp('loginform');
         var values = form.getValues();
         var lay = me.getViewport().getLayout();
@@ -81,7 +86,7 @@ Ext.define('Cms.controller.Login', {
         }
 
         Ext.Ajax.request({
-            url: 'admin/auth',
+            url: '/admin/auth',
             params: {
                 username: username,
                 password: password,
@@ -96,7 +101,8 @@ Ext.define('Cms.controller.Login', {
                     Ext.getCmp('loginform').getForm().reset();
                     return true;
                 } else {
-                    Ext.Msg.alert('Success', obj.msg);
+                    //Ext.getCmp('loginwindow').show();
+                    Ext.Msg.alert('Failed', obj.msg);
                     return false;
                 }
             },
@@ -110,12 +116,14 @@ Ext.define('Cms.controller.Login', {
 
     checkToken: function (token) {
         var me = this;
+
+        console.log('Check token');
         if (me.empty(token)) {
             return false;
         }
 
         Ext.Ajax.request({
-            url: 'admin/check',
+            url: '/admin/check',
             params: {
                 token: token
             },
@@ -127,6 +135,34 @@ Ext.define('Cms.controller.Login', {
                     return true;
                 } else {
                     Ext.Msg.alert('Success', obj.msg);
+                    Ext.util.Cookies.clear('username');
+                    Ext.util.Cookies.clear('token');
+                    Ext.getCmp('loginwindow').show();
+                    return false;
+                }
+            },
+            failure: function (response, opts) {
+                return false;
+            }
+        });
+    },
+
+    checkIsAuth: function (token) {
+        var me = this;
+
+        console.log('Check is auth');
+
+        Ext.Ajax.request({
+            url: '/admin/isauth',
+            win: me,
+            success: function (response, opts) {
+                var obj = Ext.decode(response.responseText);
+                if (obj.success) {
+                    opts.win.activate();
+                    return true;
+                } else {
+                    Ext.Msg.alert('Success', obj.msg);
+                    Ext.util.Cookies.clear('username');
                     return false;
                 }
             },
@@ -176,7 +212,7 @@ Ext.define('Cms.controller.Login', {
         menu.getStore().reload();
 
         Ext.Ajax.request({
-            url: 'admin/logout',
+            url: '/admin/logout',
             success: function (response, opts) {
                 var obj = Ext.decode(response.responseText);
                 if (obj.success) {

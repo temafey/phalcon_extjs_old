@@ -113,7 +113,6 @@ class Item extends Base
     {
         $this->_limitParamValue = 100;
         $rows = $this->getColumnData();
-
         $acl = $this->_di->get('acl');
         $viewer = $this->_di->get('viewer');
 
